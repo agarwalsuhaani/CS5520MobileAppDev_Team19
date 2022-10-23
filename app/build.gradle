@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "edu.northeastern.cs5520_mobileappdev_mihir_shubham_suhaani"
+        applicationId 'edu.northeastern.cs5520_mobileappdev_team19'
         minSdk 27
         targetSdk 32
         versionCode 1

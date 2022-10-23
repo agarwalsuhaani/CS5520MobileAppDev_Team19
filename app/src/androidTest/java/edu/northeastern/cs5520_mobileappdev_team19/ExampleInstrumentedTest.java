@@ -1,4 +1,4 @@
-package edu.northeastern.cs5520_mobileappdev_mihir_shubham_suhaani;
+package edu.northeastern.cs5520_mobileappdev_team19;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("edu.northeastern.cs5520_mobileappdev_mihir_shubham_suhaani", appContext.getPackageName());
+        assertEquals("edu.northeastern.cs5520_mobileappdev_team19", appContext.getPackageName());
     }
 }
