@@ -14,19 +14,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent gameDetails = new Intent(MainActivity.this, GameDetailsActivity.class);
-        startActivity(gameDetails);
     }
 
     public void atYourService(View v) {
-        btn_AtYourService = findViewById(R.id.btn_AtYourService);
-        btn_AtYourService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, GameListActivity.class));
-            }
-        });
+        startActivity(new Intent(MainActivity.this, GameListActivity.class));
     }
 
     public void firebase(View v) {

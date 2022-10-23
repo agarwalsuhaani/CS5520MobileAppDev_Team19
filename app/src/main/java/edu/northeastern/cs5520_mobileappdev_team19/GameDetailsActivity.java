@@ -17,6 +17,7 @@ import android.os.Bundle;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -61,7 +62,7 @@ public class GameDetailsActivity extends AppCompatActivity {
 
         ImageView header = findViewById(R.id.header);
         header.setImageURI(Uri.parse(gameDetailedInfo.getThumbnail()));
-        new DownloadImageTask(header).execute(gameDetailedInfo.getThumbnail());
+        Picasso.get().load(gameDetailedInfo.getThumbnail()).into(header);
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Start repeat for each field
@@ -80,57 +81,5 @@ public class GameDetailsActivity extends AppCompatActivity {
 
         //End repeat for each field
 
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-                mIcon11 = vignette(mIcon11, 60);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        public Bitmap vignette(Bitmap bm, int p) {
-            Bitmap image = Bitmap.createBitmap(bm.getWidth(), bm.getHeight(), Bitmap.Config.ARGB_8888);
-            int rad;
-            Canvas canvas = new Canvas(image);
-            canvas.drawBitmap(bm, 0, 0, new Paint());
-            if (bm.getWidth() < bm.getHeight()) {
-                int o = (bm.getHeight() * 2) / 100;
-                rad = bm.getHeight() - o * p / 3;
-            } else {
-                int o = (bm.getWidth() * 2) / 100;
-                rad = bm.getWidth() - o * p / 3;
-            }
-            Rect rect = new Rect(0, 0, bm.getWidth(), bm.getHeight());
-            RectF rectf = new RectF(rect);
-            int[] colors = new int[]{0, 0, Color.BLACK};
-            float[] pos = new float[]{0.0f, 0.1f, 1.0f};
-            Shader linGradLR = new RadialGradient(rect.centerX(), rect.centerY(), rad, colors, pos, Shader.TileMode.CLAMP);
-            Paint paint = new Paint();
-            paint.setShader(linGradLR);
-            paint.setAntiAlias(true);
-            paint.setDither(true);
-            paint.setAlpha(255);
-            canvas.drawRect(rectf, paint);
-            return image;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
     }
 }
