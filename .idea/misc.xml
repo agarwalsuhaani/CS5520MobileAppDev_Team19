@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/drawable/background.xml" value="0.3625" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout-w1240dp/content_scrolling.xml" value="0.23293172690763053" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout-w936dp/content_scrolling.xml" value="0.271875" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout/activity_game_details.xml" value="0.25" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout/activity_scrolling.xml" value="0.3" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout/content_scrolling.xml" value="0.264945652173913" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout/game_details_field.xml" value="0.3614583333333333" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
