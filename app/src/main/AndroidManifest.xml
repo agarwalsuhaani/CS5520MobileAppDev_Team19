@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="edu.northeastern.cs5520_mobileappdev_team19">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CS5520_MobileAppDev_Team19"
         tools:targetApi="31">
+        <activity
+            android:name="edu.northeastern.cs5520_mobileappdev_team19.GameListActivity"
+            android:exported="false" />
         <activity
             android:name="edu.northeastern.cs5520_mobileappdev_team19.MainActivity"
             android:exported="true">
