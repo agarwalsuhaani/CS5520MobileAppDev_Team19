@@ -14,6 +14,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent gameDetails = new Intent(MainActivity.this, GameDetailsActivity.class);
+        startActivity(gameDetails);
     }
 
     public void atYourService(View v) {

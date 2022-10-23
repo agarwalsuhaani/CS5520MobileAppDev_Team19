@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/agarw/OneDrive/Documents/MobileAppDev/CS5520MobileAppDev_Team19/app/src/main/res/layout/activity_game_filter2.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/agarw/OneDrive/Documents/MobileAppDev/CS5520MobileAppDev_Team19/app/src/main/res/layout/activity_game_list.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/agarw/OneDrive/Documents/MobileAppDev/CS5520MobileAppDev_Team19/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/drawable/background.xml" value="0.3625" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout-w1240dp/content_scrolling.xml" value="0.23293172690763053" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout-w936dp/content_scrolling.xml" value="0.271875" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout/activity_game_details.xml" value="0.25" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout/activity_scrolling.xml" value="0.3" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout/content_scrolling.xml" value="0.264945652173913" />
+        <entry key="..\:/Study/CS5520/CS5520MobileAppDev_Team19/app/src/main/res/layout/game_details_field.xml" value="0.3614583333333333" />
       </map>
     </option>
   </component>
