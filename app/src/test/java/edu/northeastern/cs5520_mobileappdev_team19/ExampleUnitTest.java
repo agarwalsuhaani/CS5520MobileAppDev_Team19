@@ -1,4 +1,4 @@
-package edu.northeastern.cs5520_mobileappdev_mihir_shubham_suhaani;
+package edu.northeastern.cs5520_mobileappdev_team19;
 
 import org.junit.Test;
 

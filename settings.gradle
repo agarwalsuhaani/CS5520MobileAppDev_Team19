@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "CS5520_MobileAppDev_Mihir_Shubham_Suhaani"
+rootProject.name = "CS5520_MobileAppDev_Team19"
 include ':app'
