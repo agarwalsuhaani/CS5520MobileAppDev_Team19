@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">CS5520_MobileAppDev_Team19</string>
+    <string-array name="categories">
+        <item>Platform</item>
+        <item>Genre</item>
+        <item>Developer</item>
+        <item>Publisher</item>
+    </string-array>
     <string name="title_activity_game_details">GameDetailsActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
