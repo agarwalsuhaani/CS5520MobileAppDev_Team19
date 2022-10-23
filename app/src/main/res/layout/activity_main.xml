@@ -7,12 +7,45 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/txtView_teamName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="25dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="50dp"
+        android:text="Team 19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btn_AtYourService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="At Your Service"
+        android:onClick="atYourService"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/txtView_teamName"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_teamName" />
+
+    <Button
+        android:id="@+id/btn_Firebase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:onClick="firebase"
+        android:text="Firebase"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_AtYourService" />
+
+    <Button
+        android:id="@+id/btn_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:onClick="groupProject"
+        android:text="Group Project"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_Firebase" />
 </androidx.constraintlayout.widget.ConstraintLayout>
