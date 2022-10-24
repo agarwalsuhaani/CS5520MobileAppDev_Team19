@@ -1,6 +1,7 @@
 package edu.northeastern.cs5520_mobileappdev_team19.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import edu.northeastern.cs5520_mobileappdev_team19.GameDetailsActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.models.GameInfo;
 
@@ -34,7 +36,12 @@ public class GameViewAdapter extends RecyclerView.Adapter<GameViewHolder> {
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         // TODO : Add fields
         holder.title.setText(games.get(position).getTitle());
-        Picasso.get().load(Uri.parse(games.get(position).getThumbnail())).error(R.mipmap.ic_launcher).into(holder.thumbnail);
+        Picasso.get().load(Uri.parse(games.get(position).getThumbnail())).error(R.mipmap.ic_launcher).fit().centerCrop().error(R.mipmap.ic_launcher).into(holder.thumbnail);
+        holder.itemView.setOnClickListener(view -> {
+            Intent gameDetails = new Intent(context, GameDetailsActivity.class);
+            gameDetails.putExtra(GameDetailsActivity.GAME_ID, games.get(position).getId());
+            context.startActivity(gameDetails);
+        });
     }
 
     @Override
