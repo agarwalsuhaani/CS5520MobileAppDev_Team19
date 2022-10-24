@@ -14,12 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.northeastern.cs5520_mobileappdev_team19.databinding.ActivityGameDetailsBinding;
+import edu.northeastern.cs5520_mobileappdev_team19.models.Field;
+import edu.northeastern.cs5520_mobileappdev_team19.models.FieldType;
 import edu.northeastern.cs5520_mobileappdev_team19.models.GameDetailedInfo;
 import edu.northeastern.cs5520_mobileappdev_team19.models.GameInfo;
 import edu.northeastern.cs5520_mobileappdev_team19.models.MinimumSystemRequirements;
@@ -76,19 +79,19 @@ public class GameDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private Map<String, String> simpleFieldData(GameDetailedInfo gameDetailedInfo) {
-        Map<String, String> fieldData = new HashMap<>();
+    private Map<String, Field> simpleFieldData(GameDetailedInfo gameDetailedInfo) {
+        Map<String, Field> fieldData = new HashMap<>();
 
-        fieldData.put("Title", gameDetailedInfo.getTitle());
-        fieldData.put("Description", gameDetailedInfo.getDescription());
-        fieldData.put("Short Description", gameDetailedInfo.getShortDescription());
-        fieldData.put("Developer", gameDetailedInfo.getDeveloper());
-        fieldData.put("Game URL", gameDetailedInfo.getGameUrl());
-        fieldData.put("Genre", gameDetailedInfo.getGenre());
-        fieldData.put("Platform", gameDetailedInfo.getPlatform());
-        fieldData.put("Publisher", gameDetailedInfo.getPublisher());
-        fieldData.put("Release Date", gameDetailedInfo.getReleaseDate());
-        fieldData.put("Status", gameDetailedInfo.getStatus());
+        fieldData.put("Title", new Field(FieldType.TEXT, gameDetailedInfo.getTitle()));
+        fieldData.put("Description", new Field(FieldType.TEXT, gameDetailedInfo.getDescription()));
+        fieldData.put("Short Description", new Field(FieldType.TEXT, gameDetailedInfo.getShortDescription()));
+        fieldData.put("Developer", new Field(FieldType.TEXT, gameDetailedInfo.getDeveloper()));
+        fieldData.put("Game URL", new Field(FieldType.TEXT, gameDetailedInfo.getGameUrl()));
+        fieldData.put("Genre", new Field(FieldType.TEXT, gameDetailedInfo.getGenre()));
+        fieldData.put("Platform", new Field(FieldType.ICON, gameDetailedInfo.getPlatform()));
+        fieldData.put("Publisher", new Field(FieldType.TEXT, gameDetailedInfo.getPublisher()));
+        fieldData.put("Release Date", new Field(FieldType.TEXT, gameDetailedInfo.getReleaseDate()));
+        fieldData.put("Status", new Field(FieldType.TEXT, gameDetailedInfo.getStatus()));
 
         return fieldData;
     }
@@ -118,12 +121,12 @@ public class GameDetailsActivity extends AppCompatActivity {
         Picasso.get().load(gameDetailedInfo.getThumbnail()).into(header);
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        Map<String, String> fieldData = simpleFieldData(gameDetailedInfo);
+        Map<String, Field> fieldData = simpleFieldData(gameDetailedInfo);
 
         // insert into main view
         ViewGroup insertPoint = (ViewGroup) findViewById(R.id.fieldContainer);
         int posCounter = 1;
-        for (Map.Entry<String, String> entry : fieldData.entrySet()) {
+        for (Map.Entry<String, Field> entry : fieldData.entrySet()) {
             // Start repeat for each field
             View v = vi.inflate(R.layout.game_details_field, null);
 
@@ -132,7 +135,20 @@ public class GameDetailsActivity extends AppCompatActivity {
             textView.setText(entry.getKey());
 
             TextView textViewValue = (TextView) v.findViewById(R.id.fieldValue);
-            textViewValue.setText(entry.getValue());
+            Field field = entry.getValue();
+            if (field.getFieldType().equals(FieldType.TEXT)) {
+
+                textViewValue.setText(field.getFieldValue());
+            } else if (field.getFieldType().equals(FieldType.ICON)) {
+                textViewValue.setText("");
+                if (field.getFieldValue().contains("Windows")) {
+                    textViewValue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_windows, 0, 0, 0);
+                } else if (field.getFieldValue().contains("Browser")) {
+                    textViewValue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_browser, 0, 0, 0);
+                } else {
+                    textViewValue.setText("-");
+                }
+            }
 
 
             insertPoint.addView(v, posCounter++, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
