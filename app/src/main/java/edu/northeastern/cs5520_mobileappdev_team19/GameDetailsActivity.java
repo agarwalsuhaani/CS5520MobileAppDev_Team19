@@ -1,17 +1,7 @@
 package edu.northeastern.cs5520_mobileappdev_team19;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RadialGradient;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -24,12 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import edu.northeastern.cs5520_mobileappdev_team19.databinding.ActivityGameDetailsBinding;
 import edu.northeastern.cs5520_mobileappdev_team19.models.GameDetailedInfo;
-import edu.northeastern.cs5520_mobileappdev_team19.models.GameInfo;
 import edu.northeastern.cs5520_mobileappdev_team19.services.GamesService;
 import edu.northeastern.cs5520_mobileappdev_team19.services.IGameService;
 import retrofit2.Call;
@@ -106,7 +94,5 @@ public class GameDetailsActivity extends AppCompatActivity {
         insertPoint.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
 
         //End repeat for each field
-        ProgressBar spinner = findViewById(R.id.progress_bar);
-        spinner.setVisibility(View.GONE);
     }
 }

@@ -17,14 +17,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SearchView
-        android:id="@+id/simpleSearchView"
-        android:layout_width="wrap_content"
+        android:id="@+id/games_search_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:iconifiedByDefault="false"
-        android:queryHint="Search Here"
+        android:queryHint="Search games"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.274"
+        app:layout_constraintBottom_toTopOf="@id/game_recycler_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,6 +40,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/simpleSearchView" />
+        app:layout_constraintTop_toBottomOf="@+id/games_search_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
