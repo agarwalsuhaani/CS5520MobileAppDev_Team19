@@ -112,6 +112,9 @@ public class GameListActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ProgressBar spinner = findViewById(R.id.progress_bar);
+                spinner.setVisibility(View.VISIBLE);
+
                 String selectedValue = adapterView.getItemAtPosition(i).toString();
 
                 if (selectedValue.equals(ALL)) {
