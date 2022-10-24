@@ -5,18 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_constraintTop_toBottomOf="@+id/app_bar"
     tools:context=".GameDetailsActivity"
-    tools:showIn="@layout/activity_game_details"
-    app:layout_constraintTop_toBottomOf="@+id/app_bar">
+    tools:showIn="@layout/activity_game_details">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/fieldContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingHorizontal="5dp">
+        android:paddingHorizontal="5dp"
+        android:paddingTop="10dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints" />
+
+        <include layout="@layout/sys_reqs" />
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>
