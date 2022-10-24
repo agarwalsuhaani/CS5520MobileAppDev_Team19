@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import edu.northeastern.cs5520_mobileappdev_team19.models.GameInfo;
 import edu.northeastern.cs5520_mobileappdev_team19.services.GamesService;
@@ -25,6 +28,7 @@ public class GameListActivity extends AppCompatActivity {
     private GameViewAdapter gameViewAdapter;
     private RecyclerView linkRecyclerView;
     private IGameService gameService;
+    private List<GameInfo> allGames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +36,14 @@ public class GameListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_list);
         gameService = GamesService.getInstance().api();
         games = new ArrayList<>();
+        allGames = new ArrayList<>();
         linkRecyclerView = findViewById(R.id.game_recycler_view);
         linkRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         gameViewAdapter = new GameViewAdapter(games, this);
         linkRecyclerView.setAdapter(gameViewAdapter);
 
         fetchGames();
+        setUpSearchView();
     }
 
     private void fetchGames() {
@@ -48,7 +54,8 @@ public class GameListActivity extends AppCompatActivity {
                 List<GameInfo> gamesInResponse = response.body();
                 if (gamesInResponse == null) return;
 
-                games.addAll(gamesInResponse);
+                allGames = gamesInResponse;
+                games.addAll(allGames);
                 synchronized (gameViewAdapter) {
                     gameViewAdapter.notifyDataSetChanged();
                 }
@@ -61,6 +68,25 @@ public class GameListActivity extends AppCompatActivity {
             public void onFailure(Call<List<GameInfo>> call, Throwable t) {
                 // TODO: Better logging maybe
                 System.out.println(t.getMessage());
+            }
+        });
+    }
+
+    private void setUpSearchView() {
+        SearchView searchView = findViewById(R.id.games_search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                List<GameInfo> filteredGames = allGames.stream().filter(game -> game.getTitle().toLowerCase(Locale.ROOT).contains(s.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
+                games.clear();
+                games.addAll(filteredGames);
+                gameViewAdapter.notifyDataSetChanged();
+                return true;
             }
         });
     }
