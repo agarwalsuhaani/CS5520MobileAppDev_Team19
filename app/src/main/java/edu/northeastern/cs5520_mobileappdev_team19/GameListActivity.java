@@ -6,14 +6,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import edu.northeastern.cs5520_mobileappdev_team19.models.Category;
 import edu.northeastern.cs5520_mobileappdev_team19.models.GameInfo;
 import edu.northeastern.cs5520_mobileappdev_team19.services.GamesService;
 import edu.northeastern.cs5520_mobileappdev_team19.services.IGameService;
@@ -29,6 +34,7 @@ public class GameListActivity extends AppCompatActivity {
     private RecyclerView linkRecyclerView;
     private IGameService gameService;
     private List<GameInfo> allGames;
+    private static final String ALL = "All";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +50,10 @@ public class GameListActivity extends AppCompatActivity {
 
         fetchGames();
         setUpSearchView();
+        setUpFilters();
     }
 
-    private void fetchGames() {
-        Call<List<GameInfo>> fetchGamesCall = gameService.getAll();
+    private void populateGameListFromResponse(Call<List<GameInfo>> fetchGamesCall) {
         fetchGamesCall.enqueue(new Callback<List<GameInfo>>() {
             @Override
             public void onResponse(Call<List<GameInfo>> call, Response<List<GameInfo>> response) {
@@ -55,6 +61,7 @@ public class GameListActivity extends AppCompatActivity {
                 if (gamesInResponse == null) return;
 
                 allGames = gamesInResponse;
+                games.clear();
                 games.addAll(allGames);
                 synchronized (gameViewAdapter) {
                     gameViewAdapter.notifyDataSetChanged();
@@ -72,6 +79,11 @@ public class GameListActivity extends AppCompatActivity {
         });
     }
 
+    private void fetchGames() {
+        Call<List<GameInfo>> fetchGamesCall = gameService.getAll();
+        populateGameListFromResponse(fetchGamesCall);
+    }
+
     private void setUpSearchView() {
         SearchView searchView = findViewById(R.id.games_search_view);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -87,6 +99,40 @@ public class GameListActivity extends AppCompatActivity {
                 games.addAll(filteredGames);
                 gameViewAdapter.notifyDataSetChanged();
                 return true;
+            }
+        });
+    }
+
+    private void setUpFilters() {
+        Spinner spinner = findViewById(R.id.games_genre_filter);
+        List<String> categories = Arrays.stream(Category.values()).map(Category::toString).collect(Collectors.toList());
+        categories.add(0, ALL);
+        spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories));
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedValue = adapterView.getItemAtPosition(i).toString();
+
+                if (selectedValue.equals(ALL)) {
+                    Call<List<GameInfo>> fetchGamesCall = gameService.getAll();
+                    populateGameListFromResponse(fetchGamesCall);
+                    return;
+                }
+
+                for (Category category : Category.values()) {
+                    if (category.toString().equals(selectedValue)) {
+                        Call<List<GameInfo>> fetchGamesCall = gameService.getByCategory(category);
+                        populateGameListFromResponse(fetchGamesCall);
+                        return;
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
             }
         });
     }
