@@ -25,9 +25,18 @@
         android:queryHint="Search games"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.274"
-        app:layout_constraintBottom_toTopOf="@id/game_recycler_view"
+        app:layout_constraintBottom_toTopOf="@id/games_genre_filter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/games_genre_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/games_search_view"
+        app:layout_constraintBottom_toTopOf="@+id/game_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/game_recycler_view"
@@ -40,6 +49,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/games_search_view" />
+        app:layout_constraintTop_toBottomOf="@+id/games_genre_filter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
