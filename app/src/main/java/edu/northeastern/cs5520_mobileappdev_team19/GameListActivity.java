@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,9 @@ public class GameListActivity extends AppCompatActivity {
                 synchronized (gameViewAdapter) {
                     gameViewAdapter.notifyDataSetChanged();
                 }
+
+                ProgressBar spinner = findViewById(R.id.progress_bar);
+                spinner.setVisibility(View.GONE);
             }
 
             @Override

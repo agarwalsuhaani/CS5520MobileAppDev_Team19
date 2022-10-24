@@ -14,6 +14,13 @@
         android:fitsSystemWindows="true"
         android:theme="@style/Theme.CS5520_MobileAppDev_Team19.AppBarOverlay">
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
