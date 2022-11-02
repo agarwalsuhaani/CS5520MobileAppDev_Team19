@@ -22,30 +22,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="At Your Service"
-        android:onClick="atYourService"
+        android:onClick="atYourServiceClick"
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="@+id/txtView_teamName"
         app:layout_constraintTop_toBottomOf="@+id/txtView_teamName" />
 
     <Button
-        android:id="@+id/btn_Firebase"
+        android:id="@+id/btn_stick_it_to_em"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
-        android:onClick="firebase"
-        android:text="Firebase"
+        android:onClick="stickItToEmClick"
+        android:text="Stick It To 'Em"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_AtYourService" />
 
     <Button
-        android:id="@+id/btn_group"
+        android:id="@+id/btn_group_project"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
-        android:onClick="groupProject"
+        android:onClick="groupProjectClick"
         android:text="Group Project"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_Firebase" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_stick_it_to_em" />
 </androidx.constraintlayout.widget.ConstraintLayout>
