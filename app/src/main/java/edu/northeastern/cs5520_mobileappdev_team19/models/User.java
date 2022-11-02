@@ -1,7 +1,9 @@
 package edu.northeastern.cs5520_mobileappdev_team19.models;
 
 public class User {
-    private final String username;
+    private String username;
+
+    public User() {}
 
     public User(String username) {
         this.username = username;

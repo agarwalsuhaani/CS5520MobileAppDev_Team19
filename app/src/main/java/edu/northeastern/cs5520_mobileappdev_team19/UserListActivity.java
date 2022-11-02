@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.cs5520_mobileappdev_team19.models.User;
+import edu.northeastern.cs5520_mobileappdev_team19.services.UserService;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.UserViewAdapter;
 
 public class UserListActivity extends AppCompatActivity {
@@ -19,6 +20,7 @@ public class UserListActivity extends AppCompatActivity {
     private List<User> users;
     private UserViewAdapter userViewAdapter;
     private RecyclerView userRecyclerView;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,7 @@ public class UserListActivity extends AppCompatActivity {
         userViewAdapter = new UserViewAdapter(users, this);
         userRecyclerView.setAdapter(userViewAdapter);
 
-        fetchUsers();
-    }
-
-    private void fetchUsers() {
-        // TODO : Firebase call to fetch users
+        userService = new UserService(userViewAdapter);
         ProgressBar spinner = findViewById(R.id.progress_bar_user_list);
         spinner.setVisibility(View.GONE);
     }

@@ -39,4 +39,9 @@ public class UserViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public int getItemCount() {
         return this.users.size();
     }
+
+    public void addUser(User user) {
+        this.users.add(user);
+        notifyItemInserted(getItemCount());
+    }
 }
