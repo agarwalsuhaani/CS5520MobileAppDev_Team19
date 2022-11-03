@@ -8,23 +8,21 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button btn_AtYourService, btn_firebase, btn_group;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    public void atYourService(View v) {
+    public void atYourServiceClick(View v) {
         startActivity(new Intent(MainActivity.this, GameListActivity.class));
     }
 
-    public void firebase(View v) {
-        btn_firebase = findViewById(R.id.btn_Firebase);
+    public void stickItToEmClick(View v) {
+        startActivity(new Intent(MainActivity.this, UserListActivity.class));
     }
 
-    public void groupProject(View v) {
-        btn_group = findViewById(R.id.btn_group);
+    public void groupProjectClick(View v) {
+
     }
 }
