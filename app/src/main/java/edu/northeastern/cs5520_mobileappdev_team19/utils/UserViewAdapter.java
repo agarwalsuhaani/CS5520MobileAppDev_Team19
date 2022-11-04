@@ -1,6 +1,7 @@
 package edu.northeastern.cs5520_mobileappdev_team19.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import edu.northeastern.cs5520_mobileappdev_team19.ChatActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.models.User;
 
@@ -31,7 +33,8 @@ public class UserViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         holder.username.setText(users.get(position).getUsername());
         holder.itemView.setOnClickListener(view -> {
-            // TODO : Launch chat screen
+            Intent chatActivity = new Intent(context, ChatActivity.class);
+            context.startActivity(chatActivity);
         });
     }
 
