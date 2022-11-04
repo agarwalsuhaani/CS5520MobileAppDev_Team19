@@ -1,5 +1,6 @@
 package edu.northeastern.cs5520_mobileappdev_team19.services;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -17,10 +18,19 @@ public class StickerService {
     private final Context context;
     private final List<Sticker> stickers;
     private Sticker defaultSticker;
+    @SuppressLint("StaticFieldLeak")
+    private static StickerService stickerService;
 
-    public StickerService(Context context) {
+    private StickerService(Context context) {
         this.context = context;
         this.stickers = parseAll();
+    }
+
+    public static StickerService getInstance(Context context) {
+        if (stickerService == null) {
+            stickerService = new StickerService(context);
+        }
+        return stickerService;
     }
 
     private List<Sticker> parseAll() {
@@ -31,12 +41,12 @@ public class StickerService {
             if (field.getName().startsWith("sticker")) {
                 try {
                     Log.i("LOG_TAG", "Drawable Name: " + field.getName());
-                    Drawable drawable = ContextCompat.getDrawable(context, field.getInt(null));
+//                    Drawable drawable = ContextCompat.getDrawable(context, field.getInt(null));
 
                     if (field.getName().equals("sticker_default_unavailable")) {
-                        this.defaultSticker = new Sticker("Unavailable", drawable, R.drawable.sticker_default_unavailable);
+                        this.defaultSticker = new Sticker("Unavailable", R.drawable.sticker_default_unavailable);
                     } else {
-                        stickers.add(new Sticker(field.getName(), drawable, field.getInt(null)));
+                        stickers.add(new Sticker(field.getName(), field.getInt(null)));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
