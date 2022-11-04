@@ -20,11 +20,17 @@ public class ChatActivity extends AppCompatActivity {
     private List<Sticker> stickersCatalog;
     private StickerCatalogViewAdapter stickerCatalogViewAdapter;
     private RecyclerView stickerCatalogRecyclerView;
+    public static final String SENDER_ID = "SENDER_ID";
+    public static final String RECIPIENT_ID = "RECIPIENT_ID";
+    private String senderId;
+    private String recipientId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        this.senderId = getIntent().getStringExtra(SENDER_ID);
+        this.recipientId = getIntent().getStringExtra(RECIPIENT_ID);
         stickersCatalog = new ArrayList<>();
 
         // TODO : Remove
@@ -32,7 +38,7 @@ public class ChatActivity extends AppCompatActivity {
 
         stickerCatalogRecyclerView = findViewById(R.id.sticker_catalog_recycler_view);
         stickerCatalogRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        stickerCatalogViewAdapter = new StickerCatalogViewAdapter(stickersCatalog, this);
+        stickerCatalogViewAdapter = new StickerCatalogViewAdapter(stickersCatalog, this, senderId, recipientId);
         stickerCatalogRecyclerView.setAdapter(stickerCatalogViewAdapter);
 
         configureStickerCatalogView();

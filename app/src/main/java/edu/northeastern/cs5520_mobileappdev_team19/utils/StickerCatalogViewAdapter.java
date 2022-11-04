@@ -10,15 +10,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
+import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
 import edu.northeastern.cs5520_mobileappdev_team19.models.Sticker;
+import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
 
 public class StickerCatalogViewAdapter extends RecyclerView.Adapter<StickerCatalogViewHolder> {
     private final List<Sticker> stickers;
     private final Context context;
+    private final MessageService messageService;
+    private final String senderId;
+    private final String recipientId;
 
-    public StickerCatalogViewAdapter(List<Sticker> stickers, Context context) {
+    public StickerCatalogViewAdapter(List<Sticker> stickers, Context context, String senderId, String recipientId) {
         this.stickers = stickers;
         this.context = context;
+        this.messageService = new MessageService();
+        this.senderId = senderId;
+        this.recipientId = recipientId;
     }
 
     @NonNull
@@ -31,7 +39,7 @@ public class StickerCatalogViewAdapter extends RecyclerView.Adapter<StickerCatal
     public void onBindViewHolder(@NonNull StickerCatalogViewHolder holder, int position) {
         holder.stickerImage.setImageResource(stickers.get(position).getResId());
         holder.itemView.setOnClickListener(view -> {
-            // TODO : Send sticker
+            messageService.send(recipientId, new Message(stickers.get(position).getResId(), senderId));
         });
     }
 

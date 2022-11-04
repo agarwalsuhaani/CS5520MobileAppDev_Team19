@@ -40,10 +40,7 @@ public class UserListActivity extends AppCompatActivity {
         users = new ArrayList<>();
         userRecyclerView = findViewById(R.id.user_list_recycler_view);
         userRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        userViewAdapter = new UserViewAdapter(users, this);
-        userRecyclerView.setAdapter(userViewAdapter);
         userService = new UserService();
-
         initialize();
     }
 
@@ -53,7 +50,7 @@ public class UserListActivity extends AppCompatActivity {
         if (loggedInUserId != null) {
             userService.getUser(loggedInUserId, user -> {
                 if (user != null) {
-                    setLoggedInUserAndLoadRecipients(user);
+                    loadRecipients(user);
                 } else {
                     showLoginDialog();
                 }
@@ -66,12 +63,10 @@ public class UserListActivity extends AppCompatActivity {
         }
     }
 
-    private void setLoggedInUserAndLoadRecipients(User user) {
-        loggedInUser = user;
-        loadRecipients(loggedInUser);
-    }
-
     private void loadRecipients(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+        userViewAdapter = new UserViewAdapter(users, this, loggedInUser);
+        userRecyclerView.setAdapter(userViewAdapter);
         userService.fetchUsers(userViewAdapter, loggedInUser);
         ProgressBar spinner = findViewById(R.id.progress_bar_user_list);
         spinner.setVisibility(View.GONE);

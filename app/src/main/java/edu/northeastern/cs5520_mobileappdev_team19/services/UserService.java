@@ -15,15 +15,16 @@ import edu.northeastern.cs5520_mobileappdev_team19.models.User;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.UserViewAdapter;
 
 public class UserService {
-    private final DatabaseReference database;
+    private final DatabaseReference userDatabase;
     private static final String USERS = "users";
 
     public UserService() {
-        database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        userDatabase = database.child(USERS);
     }
 
     public void fetchUsers(UserViewAdapter userViewAdapter, User loggedInUser) {
-        database.child(USERS).addChildEventListener(new ChildEventListener() {
+        userDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 User user = snapshot.getValue(User.class);
@@ -56,11 +57,11 @@ public class UserService {
     }
 
     public void registerUser(User user) {
-        database.child(USERS).child(user.getId()).setValue(user);
+        userDatabase.child(user.getId()).setValue(user);
     }
 
     public void getUser(String id, Consumer<User> onSuccess, Consumer<Exception> onError) {
-        database.child(USERS).child(id).get().addOnCompleteListener(task -> {
+        userDatabase.child(id).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 onSuccess.accept(task.getResult().getValue(User.class));
             } else {
