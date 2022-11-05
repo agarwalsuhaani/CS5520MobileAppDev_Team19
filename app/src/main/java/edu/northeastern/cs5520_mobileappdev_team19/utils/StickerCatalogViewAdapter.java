@@ -37,7 +37,7 @@ public class StickerCatalogViewAdapter extends RecyclerView.Adapter<StickerCatal
 
     @Override
     public void onBindViewHolder(@NonNull StickerCatalogViewHolder holder, int position) {
-        holder.stickerImage.setImageResource(stickers.get(position).getResId());
+        holder.stickerImage.setImageResource(stickers.get(position).getId());
         holder.itemView.setOnClickListener(view -> {
             messageService.send(recipientId, new Message(stickers.get(position).getResId(), senderId));
         });

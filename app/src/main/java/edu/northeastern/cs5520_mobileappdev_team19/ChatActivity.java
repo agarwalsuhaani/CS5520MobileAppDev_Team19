@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.cs5520_mobileappdev_team19.models.Sticker;
+import edu.northeastern.cs5520_mobileappdev_team19.services.StickerService;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.StickerCatalogViewAdapter;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private List<Sticker> stickersCatalog;
+    private StickerService stickerService;
     private StickerCatalogViewAdapter stickerCatalogViewAdapter;
     private RecyclerView stickerCatalogRecyclerView;
     public static final String SENDER_ID = "SENDER_ID";
@@ -29,16 +30,15 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         this.senderId = getIntent().getStringExtra(SENDER_ID);
         this.recipientId = getIntent().getStringExtra(RECIPIENT_ID);
-        stickersCatalog = new ArrayList<>();
-
-        // TODO : Remove
-        loadDummyStickers();
+        stickerService = StickerService.getInstance(this);
 
         stickerCatalogRecyclerView = findViewById(R.id.sticker_catalog_recycler_view);
-        stickerCatalogRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        stickerCatalogViewAdapter = new StickerCatalogViewAdapter(stickersCatalog, this, senderId, recipientId);
+        stickerCatalogRecyclerView.setLayoutManager(new GridLayoutManager(this, 6));
+        stickerCatalogViewAdapter = new StickerCatalogViewAdapter(stickerService.getAll(), this, senderId, recipientId);
+        
         stickerCatalogRecyclerView.setAdapter(stickerCatalogViewAdapter);
 
         configureStickerCatalogView();
@@ -57,17 +57,5 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void loadDummyStickers() {
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
-        stickersCatalog.add(new Sticker(R.drawable.ic_windows));
     }
 }

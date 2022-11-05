@@ -1,17 +1,25 @@
 package edu.northeastern.cs5520_mobileappdev_team19.models;
 
-import android.media.Image;
+import android.graphics.drawable.Drawable;
 
 import androidx.annotation.DrawableRes;
 
-public class Sticker {
-    private final int resId;
+import java.util.UUID;
 
-    public Sticker(@DrawableRes int resId) {
-        this.resId = resId;
+public class Sticker {
+    private final String name;
+    private final int id;
+
+    public Sticker(String name, @DrawableRes int id) {
+        this.name = name;
+        this.id = id;
     }
 
-    public int getResId() {
-        return resId;
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
     }
 }
