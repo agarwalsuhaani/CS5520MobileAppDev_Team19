@@ -21,16 +21,24 @@ public class ChatActivity extends AppCompatActivity {
     private StickerService stickerService;
     private StickerCatalogViewAdapter stickerCatalogViewAdapter;
     private RecyclerView stickerCatalogRecyclerView;
+    public static final String SENDER_ID = "SENDER_ID";
+    public static final String RECIPIENT_ID = "RECIPIENT_ID";
+    private String senderId;
+    private String recipientId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        this.senderId = getIntent().getStringExtra(SENDER_ID);
+        this.recipientId = getIntent().getStringExtra(RECIPIENT_ID);
         stickerService = StickerService.getInstance(this);
 
         stickerCatalogRecyclerView = findViewById(R.id.sticker_catalog_recycler_view);
         stickerCatalogRecyclerView.setLayoutManager(new GridLayoutManager(this, 6));
-        stickerCatalogViewAdapter = new StickerCatalogViewAdapter(stickerService.getAll(), this);
+        stickerCatalogViewAdapter = new StickerCatalogViewAdapter(stickerService.getAll(), this, senderId, recipientId);
+        
         stickerCatalogRecyclerView.setAdapter(stickerCatalogViewAdapter);
 
         configureStickerCatalogView();

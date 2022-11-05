@@ -17,10 +17,12 @@ import edu.northeastern.cs5520_mobileappdev_team19.models.User;
 public class UserViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
     private final List<User> users;
     private final Context context;
+    private final User loggedInUser;
 
-    public UserViewAdapter(List<User> users, Context context) {
+    public UserViewAdapter(List<User> users, Context context, User loggedInUser) {
         this.users = users;
         this.context = context;
+        this.loggedInUser = loggedInUser;
     }
 
     @NonNull
@@ -34,6 +36,8 @@ public class UserViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
         holder.username.setText(users.get(position).getUsername());
         holder.itemView.setOnClickListener(view -> {
             Intent chatActivity = new Intent(context, ChatActivity.class);
+            chatActivity.putExtra(ChatActivity.SENDER_ID, loggedInUser.getId());
+            chatActivity.putExtra(ChatActivity.RECIPIENT_ID, users.get(position).getId());
             context.startActivity(chatActivity);
         });
     }
