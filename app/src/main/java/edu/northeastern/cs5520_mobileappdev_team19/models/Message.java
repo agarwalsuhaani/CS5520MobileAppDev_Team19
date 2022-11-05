@@ -10,16 +10,18 @@ import java.util.UUID;
 public class Message {
     private String id;
     private String senderId;
+    private String receiverId;
     private long timestampUTC;
     private int stickerId;
 
     public Message() {}
 
-    public Message(int stickerId, String senderId) {
+    public Message(int stickerId, String senderId, String receiverId) {
         id = UUID.randomUUID().toString();
         timestampUTC = Instant.now().toEpochMilli();
         this.stickerId = stickerId;
         this.senderId = senderId;
+        this.receiverId = receiverId;
     }
 
     public String getId() {
