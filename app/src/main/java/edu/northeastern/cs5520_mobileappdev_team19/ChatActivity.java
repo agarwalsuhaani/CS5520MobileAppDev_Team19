@@ -50,10 +50,12 @@ public class ChatActivity extends AppCompatActivity {
 
 
         messagesRecyclerView = findViewById(R.id.messages_recycler_view);
-        messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        messagesViewAdapter = new MessagesViewAdapter(messageService.getMessages(senderId, recipientId), this, senderId);
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        messagesRecyclerView.setLayoutManager(linearLayoutManager);
+        messagesViewAdapter = new MessagesViewAdapter(this, senderId);
         messagesRecyclerView.setAdapter(messagesViewAdapter);
+
+        messageService.handleMessageReceived(messagesRecyclerView, messagesViewAdapter, senderId, recipientId);
 
         configureStickerCatalogView();
     }
@@ -61,14 +63,11 @@ public class ChatActivity extends AppCompatActivity {
     private void configureStickerCatalogView() {
         RecyclerView stickerCatalog = findViewById(R.id.sticker_catalog_recycler_view);
         ToggleButton stickerCatalogToggleButton = findViewById(R.id.sticker_catalog_toggle_button);
-        stickerCatalogToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    stickerCatalog.setVisibility(View.VISIBLE);
-                } else {
-                    stickerCatalog.setVisibility(View.GONE);
-                }
+        stickerCatalogToggleButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                stickerCatalog.setVisibility(View.VISIBLE);
+            } else {
+                stickerCatalog.setVisibility(View.GONE);
             }
         });
     }

@@ -9,8 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
@@ -23,8 +27,9 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewHolder
     private final Context context;
     private final String currentUserId;
 
-    public MessagesViewAdapter(List<Message> messages, Context context, String currentUserId) {
-        this.messages = messages;
+    public MessagesViewAdapter(Context context, String currentUserId) {
+//        this.messages = messages.stream().sorted(Comparator.comparingLong(Message::getTimestampUTC)).collect(Collectors.toList());
+        this.messages = new ArrayList<>();
         this.context = context;
         this.currentUserId = currentUserId;
     }
@@ -57,5 +62,20 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewHolder
     @Override
     public int getItemCount() {
         return messages.size();
+    }
+
+    public void newMessage(Message message) {
+        if (messages.stream().noneMatch(message1 -> message1.getId().equals(message.getId()))) {
+            int position = 0;
+            for (Message m: messages) {
+                if (m.getTimestampUTC() > message.getTimestampUTC()) {
+                    break;
+                }
+                position++;
+            }
+
+            this.messages.add(position, message);
+            notifyItemInserted(position);
+        }
     }
 }
