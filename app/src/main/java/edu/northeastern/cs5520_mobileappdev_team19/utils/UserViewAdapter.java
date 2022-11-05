@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.cs5520_mobileappdev_team19.ChatActivity;
@@ -50,5 +51,9 @@ public class UserViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public void addUser(User user) {
         this.users.add(user);
         notifyItemInserted(getItemCount());
+    }
+
+    public List<User> getUsers() {
+        return new ArrayList<>(users);
     }
 }
