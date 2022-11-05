@@ -47,14 +47,11 @@ public class ChatActivity extends AppCompatActivity {
     private void configureStickerCatalogView() {
         RecyclerView stickerCatalog = findViewById(R.id.sticker_catalog_recycler_view);
         ToggleButton stickerCatalogToggleButton = findViewById(R.id.sticker_catalog_toggle_button);
-        stickerCatalogToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    stickerCatalog.setVisibility(View.VISIBLE);
-                } else {
-                    stickerCatalog.setVisibility(View.GONE);
-                }
+        stickerCatalogToggleButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                stickerCatalog.setVisibility(View.VISIBLE);
+            } else {
+                stickerCatalog.setVisibility(View.GONE);
             }
         });
     }

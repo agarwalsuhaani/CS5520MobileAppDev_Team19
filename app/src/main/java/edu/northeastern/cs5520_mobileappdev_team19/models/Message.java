@@ -10,16 +10,18 @@ import java.util.UUID;
 public class Message {
     private String id;
     private String senderId;
+    public String recipientId;
     private long timestampUTC;
     private int stickerId;
 
     public Message() {}
 
-    public Message(int stickerId, String senderId) {
+    public Message(String senderId, String recipientId, int stickerId) {
         id = UUID.randomUUID().toString();
         timestampUTC = Instant.now().toEpochMilli();
         this.stickerId = stickerId;
         this.senderId = senderId;
+        this.recipientId = recipientId;
     }
 
     public String getId() {
@@ -28,6 +30,10 @@ public class Message {
 
     public String getSenderId() {
         return senderId;
+    }
+
+    public String getRecipientId() {
+        return recipientId;
     }
 
     public int getStickerId() {
@@ -41,5 +47,13 @@ public class Message {
     @Exclude
     public LocalDateTime getReceivedOn() {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestampUTC), ZoneId.systemDefault());
+    }
+
+    public String getSenderRecipientPairKey() {
+        return getSenderRecipientPairKey(senderId, recipientId);
+    }
+
+    public static String getSenderRecipientPairKey(String senderId, String recipientId) {
+        return String.format("sender/%s/recipient/%s", senderId, recipientId);
     }
 }
