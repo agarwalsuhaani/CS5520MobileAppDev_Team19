@@ -1,6 +1,5 @@
 package edu.northeastern.cs5520_mobileappdev_team19.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,19 +7,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
-import edu.northeastern.cs5520_mobileappdev_team19.models.Sticker;
-import edu.northeastern.cs5520_mobileappdev_team19.models.User;
-import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
 
 public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewHolder> {
     private final List<Message> messages;
@@ -54,9 +45,7 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewHolder
     public void onBindViewHolder(@NonNull MessagesViewHolder holder, int position) {
         Message message = messages.get(position);
         holder.messageSticker.setImageResource(message.getStickerId());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-
-        holder.messageTimestamp.setText(sdf.format(new Date(message.getTimestampUTC())));
+        holder.messageTimestamp.setText(message.getTimestampAsString());
     }
 
     @Override

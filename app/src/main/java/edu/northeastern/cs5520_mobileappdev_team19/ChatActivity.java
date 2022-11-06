@@ -30,6 +30,7 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView stickerCatalogRecyclerView;
     public static final String SENDER_ID = "SENDER_ID";
     public static final String RECIPIENT_ID = "RECIPIENT_ID";
+    public static final String RECIPIENT_USERNAME = "RECIPIENT_NAME";
     private String senderId;
     private String recipientId;
     private MessagesViewAdapter messagesViewAdapter;
@@ -62,6 +63,8 @@ public class ChatActivity extends AppCompatActivity {
         messageService.handleMessageReceived(messagesRecyclerView, messagesViewAdapter, senderId, recipientId);
 
         configureStickerCatalogView();
+
+        this.setTitle(getIntent().getStringExtra(RECIPIENT_USERNAME));
     }
 
     private void configureStickerCatalogView() {
