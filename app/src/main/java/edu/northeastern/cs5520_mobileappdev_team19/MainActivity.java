@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void aboutClick(View v) {
+        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+    }
+    
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
