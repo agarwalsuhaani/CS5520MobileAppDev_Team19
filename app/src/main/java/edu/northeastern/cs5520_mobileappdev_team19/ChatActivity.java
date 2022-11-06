@@ -1,6 +1,8 @@
 package edu.northeastern.cs5520_mobileappdev_team19;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
 import edu.northeastern.cs5520_mobileappdev_team19.models.Sticker;
 import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
 import edu.northeastern.cs5520_mobileappdev_team19.services.StickerService;
@@ -21,6 +24,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.utils.StickerCatalogViewAdapt
 
 public class ChatActivity extends AppCompatActivity {
 
+    public static String NOTIFICATION_CHANNEL_ID = "Chat notifications";
     private StickerService stickerService;
     private StickerCatalogViewAdapter stickerCatalogViewAdapter;
     private RecyclerView stickerCatalogRecyclerView;
