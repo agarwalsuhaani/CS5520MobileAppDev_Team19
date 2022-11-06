@@ -13,6 +13,7 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
 import edu.northeastern.cs5520_mobileappdev_team19.models.Sticker;
 import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
 import edu.northeastern.cs5520_mobileappdev_team19.services.StickerService;
