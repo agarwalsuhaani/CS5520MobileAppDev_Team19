@@ -27,6 +27,7 @@ public class MessageService {
     private static final String SENDER_ID_KEY_NAME = "senderId";
     private static final String RECIPIENT_ID_KEY_NAME = "recipientId";
     private static final String SENDER_RECIPIENT_PAIR_KEY_NAME = "senderRecipientPairKey";
+    private ChildEventListener handleMessageReceivedNotifications;
 
     public MessageService() {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
@@ -59,6 +60,46 @@ public class MessageService {
         };
     }
 
+    public void handleMessageReceivedNotifications(String currentUserId, Consumer<Message> callback) {
+        if (handleMessageReceivedNotifications != null) {
+            messagesDatabase.removeEventListener(handleMessageReceivedNotifications);
+            handleMessageReceivedNotifications = null;
+        }
+        handleMessageReceivedNotifications = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Message message = snapshot.getValue(Message.class);
+                if (message != null && message.getRecipientId().equals(currentUserId)) {
+                    // Call message received callback.
+                    callback.accept(message);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String
+                    previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        messagesDatabase.addChildEventListener(handleMessageReceivedNotifications);
+    }
+
     public void handleMessageReceived(RecyclerView rv, MessagesViewAdapter messagesViewAdapter, String currentUserId, String otherUserId) {
         messagesDatabase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -68,6 +109,10 @@ public class MessageService {
                         || (message.getRecipientId().equals(otherUserId) && message.getSenderId().equals(currentUserId)))) {
                     messagesViewAdapter.newMessage(message);
                     rv.smoothScrollToPosition(messagesViewAdapter.getItemCount() - 1);
+
+                    if (message.getRecipientId().equals(currentUserId)) {
+                        // Call message received callback.
+                    }
                 }
             }
 

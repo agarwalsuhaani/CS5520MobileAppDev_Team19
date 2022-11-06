@@ -1,6 +1,8 @@
 package edu.northeastern.cs5520_mobileappdev_team19;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.utils.StickerCatalogViewAdapt
 
 public class ChatActivity extends AppCompatActivity {
 
+    public static String NOTIFICATION_CHANNEL_ID = "Chat notifications";
     private StickerService stickerService;
     private StickerCatalogViewAdapter stickerCatalogViewAdapter;
     private RecyclerView stickerCatalogRecyclerView;
@@ -54,7 +57,7 @@ public class ChatActivity extends AppCompatActivity {
         messagesRecyclerView = findViewById(R.id.messages_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         messagesRecyclerView.setLayoutManager(linearLayoutManager);
-        messagesViewAdapter = new MessagesViewAdapter(this, senderId);
+        messagesViewAdapter = new MessagesViewAdapter(this, senderId, stickerService);
         messagesRecyclerView.setAdapter(messagesViewAdapter);
 
         messageService.handleMessageReceived(messagesRecyclerView, messagesViewAdapter, senderId, recipientId);

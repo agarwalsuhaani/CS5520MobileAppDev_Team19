@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.cs5520_mobileappdev_team19.ChatActivity;
@@ -28,7 +29,7 @@ public class UserViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new UserViewHolder(LayoutInflater.from(context).inflate(R.layout.item_user, null));
+        return new UserViewHolder(LayoutInflater.from(context).inflate(R.layout.item_user, parent, false));
     }
 
     @Override
@@ -51,5 +52,9 @@ public class UserViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public void addUser(User user) {
         this.users.add(user);
         notifyItemInserted(getItemCount());
+    }
+
+    public List<User> getUsers() {
+        return new ArrayList<>(users);
     }
 }
