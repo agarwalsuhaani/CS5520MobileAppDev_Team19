@@ -25,4 +25,8 @@ public class MainActivity extends AppCompatActivity {
     public void groupProjectClick(View v) {
 
     }
+
+    public void aboutClick(View v) {
+        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+    }
 }
