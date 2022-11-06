@@ -1,11 +1,13 @@
 package edu.northeastern.cs5520_mobileappdev_team19;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +15,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -108,8 +113,26 @@ public class UserListActivity extends AppCompatActivity {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!TextUtils.isEmpty(usernameEditText.getText().toString()));
             }
         };
+        usernameEditText.addTextChangedListener(watcher);
+        usernameEditText.addTextChangedListener(watcher);
+    }
 
-        usernameEditText.addTextChangedListener(watcher);
-        usernameEditText.addTextChangedListener(watcher);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_stickers_sent_received, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.stickersSent:
+                startActivity(new Intent(UserListActivity.this, StickerSentActivity.class));
+                break;
+            case R.id.stickersReceived:
+                startActivity(new Intent(UserListActivity.this, StickerReceivedActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
