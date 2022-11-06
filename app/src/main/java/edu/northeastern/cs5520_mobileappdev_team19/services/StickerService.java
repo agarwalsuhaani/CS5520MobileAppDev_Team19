@@ -64,4 +64,10 @@ public class StickerService {
     public Sticker getById(int id) {
         return this.stickers.stream().filter(s -> s.getId() == id).findFirst().orElse(this.defaultSticker);
     }
+
+    public Drawable getDrawableById(int id) {
+        Sticker sticker = getById(id);
+
+        return ContextCompat.getDrawable(context, sticker.getId());
+    }
 }
