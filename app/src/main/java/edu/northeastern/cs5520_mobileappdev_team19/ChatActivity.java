@@ -53,7 +53,7 @@ public class ChatActivity extends AppCompatActivity {
         messagesRecyclerView = findViewById(R.id.messages_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         messagesRecyclerView.setLayoutManager(linearLayoutManager);
-        messagesViewAdapter = new MessagesViewAdapter(this, senderId);
+        messagesViewAdapter = new MessagesViewAdapter(this, senderId, stickerService);
         messagesRecyclerView.setAdapter(messagesViewAdapter);
 
         messageService.handleMessageReceived(messagesRecyclerView, messagesViewAdapter, senderId, recipientId);
