@@ -1,7 +1,11 @@
 package edu.northeastern.cs5520_mobileappdev_team19.services;
 
-import androidx.annotation.NonNull;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,6 +17,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
+import edu.northeastern.cs5520_mobileappdev_team19.models.User;
+import edu.northeastern.cs5520_mobileappdev_team19.utils.MessagesViewAdapter;
+import edu.northeastern.cs5520_mobileappdev_team19.utils.UserViewAdapter;
 
 public class MessageService {
     private final DatabaseReference messagesDatabase;
@@ -34,14 +41,15 @@ public class MessageService {
         return new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Message> messages = new ArrayList<>();
+
                 if (snapshot.exists()) {
-                    List<Message> messages = new ArrayList<>();
                     for (DataSnapshot item : snapshot.getChildren()) {
                         Message message = item.getValue(Message.class);
                         messages.add(message);
                     }
-                    callback.accept(messages);
                 }
+                callback.accept(messages);
             }
 
             @Override
@@ -49,6 +57,40 @@ public class MessageService {
 
             }
         };
+    }
+
+    public void handleMessageReceived(RecyclerView rv, MessagesViewAdapter messagesViewAdapter, String currentUserId, String otherUserId) {
+        messagesDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Message message = snapshot.getValue(Message.class);
+                if (message != null && ((message.getRecipientId().equals(currentUserId) && message.getSenderId().equals(otherUserId))
+                        || (message.getRecipientId().equals(otherUserId) && message.getSenderId().equals(currentUserId)))) {
+                    messagesViewAdapter.newMessage(message);
+                    rv.smoothScrollToPosition(messagesViewAdapter.getItemCount() - 1);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void getFilteredMessages(String key, String value, Consumer<List<Message>> callback) {

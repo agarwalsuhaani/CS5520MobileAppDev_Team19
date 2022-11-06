@@ -2,6 +2,7 @@ package edu.northeastern.cs5520_mobileappdev_team19;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.cs5520_mobileappdev_team19.models.Sticker;
+import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
 import edu.northeastern.cs5520_mobileappdev_team19.services.StickerService;
+import edu.northeastern.cs5520_mobileappdev_team19.utils.MessagesViewAdapter;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.StickerCatalogViewAdapter;
 
 public class ChatActivity extends AppCompatActivity {
@@ -25,6 +28,9 @@ public class ChatActivity extends AppCompatActivity {
     public static final String RECIPIENT_ID = "RECIPIENT_ID";
     private String senderId;
     private String recipientId;
+    private MessagesViewAdapter messagesViewAdapter;
+    private RecyclerView messagesRecyclerView;
+    private MessageService messageService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +40,22 @@ public class ChatActivity extends AppCompatActivity {
         this.senderId = getIntent().getStringExtra(SENDER_ID);
         this.recipientId = getIntent().getStringExtra(RECIPIENT_ID);
         stickerService = StickerService.getInstance(this);
+        messageService = new MessageService();
 
         stickerCatalogRecyclerView = findViewById(R.id.sticker_catalog_recycler_view);
         stickerCatalogRecyclerView.setLayoutManager(new GridLayoutManager(this, 6));
         stickerCatalogViewAdapter = new StickerCatalogViewAdapter(stickerService.getAll(), this, senderId, recipientId);
-        
+
         stickerCatalogRecyclerView.setAdapter(stickerCatalogViewAdapter);
+
+
+        messagesRecyclerView = findViewById(R.id.messages_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        messagesRecyclerView.setLayoutManager(linearLayoutManager);
+        messagesViewAdapter = new MessagesViewAdapter(this, senderId);
+        messagesRecyclerView.setAdapter(messagesViewAdapter);
+
+        messageService.handleMessageReceived(messagesRecyclerView, messagesViewAdapter, senderId, recipientId);
 
         configureStickerCatalogView();
     }
