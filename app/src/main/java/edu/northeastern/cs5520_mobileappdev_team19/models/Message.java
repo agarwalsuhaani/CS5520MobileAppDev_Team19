@@ -1,10 +1,12 @@
 package edu.northeastern.cs5520_mobileappdev_team19.models;
 
+import android.annotation.SuppressLint;
+
 import com.google.firebase.database.Exclude;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.Date;
 import java.util.UUID;
 
 public class Message {
@@ -14,6 +16,7 @@ public class Message {
     private long timestampUTC;
     private int stickerId;
 
+    @SuppressWarnings("unused")
     public Message() {}
 
     public Message(String senderId, String recipientId, int stickerId) {
@@ -45,10 +48,12 @@ public class Message {
     }
 
     @Exclude
-    public LocalDateTime getReceivedOn() {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestampUTC), ZoneId.systemDefault());
+    public String getTimestampAsString() {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
+        return sdf.format(new Date(getTimestampUTC()));
     }
 
+    @SuppressWarnings("unused")
     public String getSenderRecipientPairKey() {
         return getSenderRecipientPairKey(senderId, recipientId);
     }
