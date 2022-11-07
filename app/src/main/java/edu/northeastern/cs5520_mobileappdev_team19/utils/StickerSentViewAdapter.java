@@ -1,7 +1,6 @@
 package edu.northeastern.cs5520_mobileappdev_team19.utils;
 
 import android.content.Context;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
+import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
 import edu.northeastern.cs5520_mobileappdev_team19.services.UserService;
 
 public class StickerSentViewAdapter extends RecyclerView.Adapter<StickerSentViewHolder> {

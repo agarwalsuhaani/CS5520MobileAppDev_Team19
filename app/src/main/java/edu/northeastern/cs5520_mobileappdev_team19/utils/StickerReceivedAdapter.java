@@ -36,7 +36,6 @@ public class StickerReceivedAdapter extends RecyclerView.Adapter<StickerReceived
         Message message = messages.get(position);
         holder.sticker.setImageResource(message.getStickerId());
         userService.getUser(message.getSenderId(), (user) -> holder.receivedFrom.setText(user.getUsername()), (error) -> {});
-
         holder.timestamp.setText(message.getTimestampAsString());
     }
 

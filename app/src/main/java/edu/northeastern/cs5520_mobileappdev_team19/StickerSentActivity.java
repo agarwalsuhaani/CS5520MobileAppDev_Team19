@@ -1,6 +1,8 @@
 package edu.northeastern.cs5520_mobileappdev_team19;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -29,6 +31,10 @@ public class StickerSentActivity extends AppCompatActivity {
         stickerSentViewAdapter = new StickerSentViewAdapter(this);
         stickerSentRecyclerView.setAdapter(stickerSentViewAdapter);
 
-        //messageService.getMessagesSentBy(senderId, (messages -> stickerSentViewAdapter.setMessages(messages)));
+        layoutManager = new GridLayoutManager(this, 2);
+
+        stickerSentRecyclerView.setLayoutManager(layoutManager);
+
+        messageService.getMessagesSentBy(senderId, (messages -> stickerSentViewAdapter.setMessages(messages)));
     }
 }
