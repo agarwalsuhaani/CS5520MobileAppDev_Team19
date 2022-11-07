@@ -8,6 +8,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.function.Consumer;
 
@@ -17,6 +18,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.utils.UserViewAdapter;
 public class UserService {
     private final DatabaseReference userDatabase;
     private static final String USERS = "users";
+    private static final String USERNAME_KEY = "username";
 
     public UserService() {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
@@ -56,8 +58,28 @@ public class UserService {
         });
     }
 
-    public void registerUser(User user) {
-        userDatabase.child(user.getId()).setValue(user);
+    public void registerUser(String username, Consumer<User> onComplete) {
+        userDatabase.orderByChild(USERNAME_KEY).equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = null;
+                if (snapshot.exists()) {
+                    for (DataSnapshot userItem : snapshot.getChildren()) {
+                        user = userItem.getValue(User.class);
+                    }
+                }
+                if (user == null) {
+                    user = new User(username);
+                    userDatabase.child(user.getId()).setValue(user);
+                }
+                onComplete.accept(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void getUser(String id, Consumer<User> onSuccess, Consumer<Exception> onError) {

@@ -112,10 +112,11 @@ public class UserListActivity extends AppCompatActivity {
         builder.setView(userLoginView);
 
         builder.setPositiveButton("Submit", (dialog, which) -> {
-            loggedInUser = new User(usernameEditText.getText().toString());
-            userService.registerUser(loggedInUser);
-            storeInPreferences(LOGGED_IN_USER_ID, loggedInUser.getId());
-            loadRecipients(loggedInUser);
+            userService.registerUser(usernameEditText.getText().toString(), (user) -> {
+                this.loggedInUser = user;
+                storeInPreferences(LOGGED_IN_USER_ID, loggedInUser.getId());
+                loadRecipients(loggedInUser);
+            });
         });
 
         final AlertDialog dialog = builder.create();
