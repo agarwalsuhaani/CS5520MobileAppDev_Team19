@@ -188,7 +188,9 @@ public class UserListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.stickersSent:
-                startActivity(new Intent(UserListActivity.this, StickerSentActivity.class));
+                Intent stickerSentActivity = new Intent(UserListActivity.this, StickerSentActivity.class);
+                stickerSentActivity.putExtra(StickerSentActivity.SENDER_ID, this.loggedInUser.getId());
+                startActivity(stickerSentActivity);
                 break;
             case R.id.stickersReceived:
                 startActivity(new Intent(UserListActivity.this, StickerReceivedActivity.class));
