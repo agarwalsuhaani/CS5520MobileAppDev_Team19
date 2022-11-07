@@ -35,6 +35,9 @@ public class StickerReceivedActivity extends AppCompatActivity {
 
         this.setTitle("Stickers Received");
 
-        messageService.getMessagesReceivedBy(recipientId, (messages -> stickerReceivedAdapter.setMessages(messages)));
+        messageService.getMessagesReceivedBy(recipientId, (messages -> {
+            messages.sort((message1, message2) -> message1.getTimestampUTC() > message2.getTimestampUTC() ? -1 : 1);
+            stickerReceivedAdapter.setMessages(messages);
+        }));
     }
 }
