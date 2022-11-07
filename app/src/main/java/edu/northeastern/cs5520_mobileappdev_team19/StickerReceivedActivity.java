@@ -5,17 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.os.Message;
 
 import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
-import edu.northeastern.cs5520_mobileappdev_team19.utils.MessagesViewAdapter;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.StickerReceivedAdapter;
 
 public class StickerReceivedActivity extends AppCompatActivity {
     private String recipientId;
     public static final String RECIPIENT_ID = "RECIPIENT_ID";
     private RecyclerView stickerReceivedRecyclerView;
-    private StickerReceivedAdapter adapterStickerReceived;
+    private StickerReceivedAdapter stickerReceivedAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private MessageService messageService;
 
@@ -32,9 +30,11 @@ public class StickerReceivedActivity extends AppCompatActivity {
 
         messageService = new MessageService();
 
-        adapterStickerReceived = new StickerReceivedAdapter(this, recipientId);
-        stickerReceivedRecyclerView.setAdapter(adapterStickerReceived);
+        stickerReceivedAdapter = new StickerReceivedAdapter(this);
+        stickerReceivedRecyclerView.setAdapter(stickerReceivedAdapter);
 
         this.setTitle("Stickers Received");
+
+        messageService.getMessagesReceivedBy(recipientId, (messages -> stickerReceivedAdapter.setMessages(messages)));
     }
 }
