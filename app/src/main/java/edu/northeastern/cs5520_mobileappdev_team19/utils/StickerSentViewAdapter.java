@@ -9,17 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
-import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
-import edu.northeastern.cs5520_mobileappdev_team19.services.UserService;
+import edu.northeastern.cs5520_mobileappdev_team19.models.Sticker;
 
 public class StickerSentViewAdapter extends RecyclerView.Adapter<StickerSentViewHolder> {
-    private final List<Message> messages;
+    private final List<Map.Entry<Sticker, Long>> stickerCount;
     private final Context context;
 
     public StickerSentViewAdapter(Context context) {
-        this.messages = new ArrayList<>();
+        this.stickerCount = new ArrayList<>();
         this.context = context;
     }
 
@@ -31,18 +31,19 @@ public class StickerSentViewAdapter extends RecyclerView.Adapter<StickerSentView
 
     @Override
     public void onBindViewHolder(@NonNull StickerSentViewHolder holder, int position) {
-        Message message = messages.get(position);
-        holder.stickerSent.setImageResource(message.getStickerId());
+        Map.Entry<Sticker, Long> stickerCountInfo = stickerCount.get(position);
+        holder.stickerSent.setImageResource(stickerCountInfo.getKey().getId());
+        holder.stickerSentCount.setText(String.valueOf(stickerCountInfo.getValue()));
     }
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        return stickerCount.size();
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages.clear();
-        this.messages.addAll(messages);
+    public void setStickerCount(Map<Sticker, Long> stickerCount) {
+        this.stickerCount.clear();
+        this.stickerCount.addAll(stickerCount.entrySet());
         this.notifyDataSetChanged();
     }
 }
