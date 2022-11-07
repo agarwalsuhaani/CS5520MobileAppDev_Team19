@@ -191,7 +191,9 @@ public class UserListActivity extends AppCompatActivity {
                 startActivity(new Intent(UserListActivity.this, StickerSentActivity.class));
                 break;
             case R.id.stickersReceived:
-                startActivity(new Intent(UserListActivity.this, StickerReceivedActivity.class));
+                Intent stickerReceivedActivity = new Intent(UserListActivity.this, StickerReceivedActivity.class);
+                stickerReceivedActivity.putExtra(StickerReceivedActivity.RECIPIENT_ID, this.loggedInUser.getId());
+                startActivity(stickerReceivedActivity);
         }
         return super.onOptionsItemSelected(item);
     }
