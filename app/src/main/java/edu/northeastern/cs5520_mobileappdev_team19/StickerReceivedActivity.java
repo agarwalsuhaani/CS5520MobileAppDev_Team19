@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
+import edu.northeastern.cs5520_mobileappdev_team19.services.StickerService;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.StickerReceivedAdapter;
 
 public class StickerReceivedActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class StickerReceivedActivity extends AppCompatActivity {
     private StickerReceivedAdapter stickerReceivedAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private MessageService messageService;
+    private StickerService stickerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +31,16 @@ public class StickerReceivedActivity extends AppCompatActivity {
         stickerReceivedRecyclerView.setLayoutManager(layoutManager);
 
         messageService = new MessageService();
+        this.stickerService = StickerService.getInstance(this);
 
-        stickerReceivedAdapter = new StickerReceivedAdapter(this);
+        stickerReceivedAdapter = new StickerReceivedAdapter(this, stickerService);
         stickerReceivedRecyclerView.setAdapter(stickerReceivedAdapter);
 
         this.setTitle("Stickers Received");
 
-        messageService.getMessagesReceivedBy(recipientId, (messages -> stickerReceivedAdapter.setMessages(messages)));
+        messageService.getMessagesReceivedBy(recipientId, (messages -> {
+            messages.sort((message1, message2) -> message1.getTimestampUTC() > message2.getTimestampUTC() ? -1 : 1);
+            stickerReceivedAdapter.setMessages(messages);
+        }));
     }
 }

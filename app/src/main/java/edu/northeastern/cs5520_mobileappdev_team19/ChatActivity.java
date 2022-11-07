@@ -48,7 +48,7 @@ public class ChatActivity extends AppCompatActivity {
         messageService = new MessageService();
 
         stickerCatalogRecyclerView = findViewById(R.id.sticker_catalog_recycler_view);
-        stickerCatalogRecyclerView.setLayoutManager(new GridLayoutManager(this, 6));
+        stickerCatalogRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         stickerCatalogViewAdapter = new StickerCatalogViewAdapter(stickerService.getAll(), this, senderId, recipientId);
 
         stickerCatalogRecyclerView.setAdapter(stickerCatalogViewAdapter);
