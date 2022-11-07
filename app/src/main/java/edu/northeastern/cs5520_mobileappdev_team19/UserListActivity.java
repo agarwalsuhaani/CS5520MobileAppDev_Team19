@@ -16,9 +16,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -33,11 +34,10 @@ import android.widget.ProgressBar;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
 import edu.northeastern.cs5520_mobileappdev_team19.models.User;
 import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
-import edu.northeastern.cs5520_mobileappdev_team19.services.StickerService;
 import edu.northeastern.cs5520_mobileappdev_team19.services.UserService;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.UserViewAdapter;
 
@@ -47,7 +47,6 @@ public class UserListActivity extends AppCompatActivity {
     private UserViewAdapter userViewAdapter;
     private RecyclerView userRecyclerView;
     private UserService userService;
-    private StickerService stickerService;
     private User loggedInUser;
     private static final String LOGGED_IN_USER_ID = "LOGGED_IN_USER_ID";
     private static int notificationId = 1;
@@ -63,7 +62,6 @@ public class UserListActivity extends AppCompatActivity {
         userRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         userService = new UserService();
         messageService = new MessageService();
-        stickerService = StickerService.getInstance(this);
         initialize();
     }
 
@@ -109,10 +107,19 @@ public class UserListActivity extends AppCompatActivity {
         builder.setTitle("Login using username");
         View userLoginView = LayoutInflater.from(getBaseContext()).inflate(R.layout.user_login, null);
         final EditText usernameEditText = userLoginView.findViewById(R.id.login_username);
+        usernameEditText.setFilters(new InputFilter[] {
+                new InputFilter.AllCaps() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dStart, int dEnd) {
+                        return String.valueOf(source).toLowerCase();
+                    }
+                }
+        });
+
         builder.setView(userLoginView);
 
         builder.setPositiveButton("Submit", (dialog, which) -> {
-            userService.registerUser(usernameEditText.getText().toString(), (user) -> {
+            userService.registerUser(usernameEditText.getText().toString().toLowerCase(Locale.ROOT), (user) -> {
                 this.loggedInUser = user;
                 storeInPreferences(LOGGED_IN_USER_ID, loggedInUser.getId());
                 loadRecipients(loggedInUser);
