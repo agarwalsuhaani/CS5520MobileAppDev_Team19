@@ -65,9 +65,6 @@ public class ChatActivity extends AppCompatActivity {
         configureStickerCatalogView();
 
         this.setTitle(getIntent().getStringExtra(RECIPIENT_USERNAME));
-
-        messageService.send(new Message("61850449-a513-4c3f-ad9b-039f731b92b8", "54f9c031-efae-4e67-81a8-9979a45c073a", R.drawable.sticker_anguished_face));
-        messageService.send(new Message("6510dbc8-9e11-4feb-845d-6ac8b47745a9", "54f9c031-efae-4e67-81a8-9979a45c073a", R.drawable.sticker_angry_face));
     }
 
     private void configureStickerCatalogView() {
