@@ -15,14 +15,12 @@ import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
 import edu.northeastern.cs5520_mobileappdev_team19.services.UserService;
 
 public class StickerSentViewAdapter extends RecyclerView.Adapter<StickerSentViewHolder> {
-    private final UserService userService;
     private final List<Message> messages;
     private final Context context;
 
     public StickerSentViewAdapter(Context context) {
         this.messages = new ArrayList<>();
         this.context = context;
-        this.userService = new UserService();
     }
 
     @NonNull
