@@ -6,52 +6,44 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.common.Constants;
-import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Amenity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PropertyService {
-    private static PropertyService instance;
-    private final IPropertyAPI api;
+public class AmenityService {
+    private static AmenityService instance;
+    private final IAmenityAPI api;
 
-    private PropertyService() {
+    private AmenityService() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        api = retrofit.create(IPropertyAPI.class);
+        api = retrofit.create(IAmenityAPI.class);
     }
 
-    public static PropertyService getInstance() {
+    public static AmenityService getInstance() {
         if (instance == null) {
-            instance = new PropertyService();
+            instance = new AmenityService();
         }
         return instance;
     }
 
-    public void add(Property property) {}
-
-    public void update(Property property) {}
-
-    public void delete(String id) {}
-
-    public void get(String id) {}
-
-    public void getAll(Consumer<List<Property>> callback) {
-        api.getAll().enqueue(new Callback<List<Property>>() {
+    public void getAll(Consumer<List<Amenity>> callback) {
+        api.getAll().enqueue(new Callback<List<Amenity>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Property>> call, @NonNull Response<List<Property>> response) {
+            public void onResponse(@NonNull Call<List<Amenity>> call, @NonNull Response<List<Amenity>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.accept(response.body());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Property>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<Amenity>> call, @NonNull Throwable t) {
                 // TODO : Handle failure
             }
         });
