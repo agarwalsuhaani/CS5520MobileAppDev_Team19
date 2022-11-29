@@ -1,19 +1,14 @@
 package edu.northeastern.cs5520_mobileappdev_team19;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
-import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
-import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.FindAHomeActivity;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -32,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void groupProjectClick(View v) {
-
+        startActivity(new Intent(MainActivity.this, FindAHomeActivity.class));
     }
 
     public void aboutClick(View v) {

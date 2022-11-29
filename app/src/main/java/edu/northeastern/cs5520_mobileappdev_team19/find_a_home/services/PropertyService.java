@@ -33,7 +33,23 @@ public class PropertyService {
         return instance;
     }
 
-    public void add(Property property) {}
+    public void add(Property property) {
+        api.create(property).enqueue(new Callback<Property>() {
+            @Override
+            public void onResponse(@NonNull Call<Property> call, @NonNull Response<Property> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // TODO : Handle success
+                    System.out.println("Property created");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Property> call, @NonNull Throwable t) {
+                // TODO : Handle failure
+                System.out.println(t.getMessage());
+            }
+        });
+    }
 
     public void update(Property property) {}
 
