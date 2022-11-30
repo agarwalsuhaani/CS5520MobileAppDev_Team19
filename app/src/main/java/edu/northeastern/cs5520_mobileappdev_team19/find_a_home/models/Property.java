@@ -1,34 +1,88 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class Property {
-    private final String id;
-    private final String userId;
-    private int bedCount;
-    private int bathCount;
-    private boolean isStudio;
-    private double latitude;
-    private double longitude;
-    private String streetAddress;
-    private String city;
-    private String state;
-    private int zipcode;
-    private double rent;
-    private double areaInSquareFeet;
-    private long availableFromUTC;
-    private long availableToUTC;
-    private final List<Amenity> amenities;
-    private final List<String> imageIds;
+    // TODO : Add to model
+    private transient final String id;
 
-    public Property(String userId) {
+    // TODO : Add to model
+    private transient final String userId;
+
+    @SerializedName("bed_count")
+    private final int bedCount;
+
+    @SerializedName("bath_count")
+    private final int bathCount;
+
+    @SerializedName("is_studio")
+    private final boolean isStudio;
+
+    @SerializedName("location")
+    private final Location location;
+
+    @SerializedName("street_address")
+    private final String streetAddress;
+
+    @SerializedName("city")
+    private final String city;
+
+    @SerializedName("state")
+    private final String state;
+
+    @SerializedName("zipcode")
+    private final int zipcode;
+
+    @SerializedName("rent")
+    private final double rent;
+
+    @SerializedName("area_sqft")
+    private final double areaInSquareFeet;
+
+    @SerializedName("available_from")
+    private final long availableFromUTC;
+
+    @SerializedName("available_to")
+    private final long availableToUTC;
+
+    @SerializedName("amenities")
+    private final List<Amenity> amenities;
+
+    public Property(
+            String userId,
+            int bedCount,
+            int bathCount,
+            boolean isStudio,
+            double latitude,
+            double longitude,
+            String streetAddress,
+            String city,
+            String state,
+            int zipcode,
+            double rent,
+            double areaInSquareFeet,
+            Date availableFrom,
+            Date availableTo,
+            List<Amenity> amenities) {
         this.id = UUID.randomUUID().toString();
         this.userId = userId;
-        this.amenities = new ArrayList<>();
-        this.imageIds = new ArrayList<>();
+        this.bedCount = bedCount;
+        this.bathCount = bathCount;
+        this.isStudio = isStudio;
+        this.location = new Location(latitude, longitude);
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.rent = rent;
+        this.areaInSquareFeet = areaInSquareFeet;
+        this.availableFromUTC = availableFrom.getTime();
+        this.availableToUTC = availableTo.getTime();
+        this.amenities = amenities;
     }
 
     public String getId() {
@@ -51,12 +105,8 @@ public class Property {
         return isStudio;
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
+    public Location getLocation() {
+        return location;
     }
 
     public String getStreetAddress() {
@@ -93,9 +143,5 @@ public class Property {
 
     public List<Amenity> getAmenities() {
         return amenities;
-    }
-
-    public List<String> getImageIds() {
-        return imageIds;
     }
 }
