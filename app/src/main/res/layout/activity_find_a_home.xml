@@ -6,4 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".find_a_home.FindAHomeActivity">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/location_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#989898"
+        android:elevation="5dp"
+        app:iconifiedByDefault="false"
+        app:queryHint="Where do you wanna live?"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map_view"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".find_a_home.FindAHomeActivity" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
