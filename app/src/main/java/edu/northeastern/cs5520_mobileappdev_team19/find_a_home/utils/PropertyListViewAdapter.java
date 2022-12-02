@@ -35,6 +35,7 @@ public class PropertyListViewAdapter extends RecyclerView.Adapter<PropertyListVi
     public void onBindViewHolder(@NonNull PropertyListViewHolder holder, int position) {
         holder.tv_propertyAddress.setText(propertyList.get(position).getStreetAddress());
         holder.tv_propertyName.setText(String.valueOf(propertyList.get(position).getBathCount()));
+        // TODO: Property image
     }
 
     @Override
