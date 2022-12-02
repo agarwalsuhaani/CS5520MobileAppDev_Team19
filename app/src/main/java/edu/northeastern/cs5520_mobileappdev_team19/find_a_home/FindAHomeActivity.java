@@ -46,6 +46,8 @@ public class FindAHomeActivity extends AppCompatActivity {
         propertyAdapter = new PropertyListViewAdapter(propertyList, this);
         propertyListRecyclerView.setAdapter(propertyAdapter);
 
+        // TODO: backend call remaining for recycler view
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             requestSignIn(user -> {
