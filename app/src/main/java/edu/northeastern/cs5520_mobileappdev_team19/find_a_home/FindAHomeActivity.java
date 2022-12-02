@@ -29,11 +29,14 @@ public class FindAHomeActivity extends AppCompatActivity {
         if (user == null) {
             requestSignIn(user -> {
                 this.user = user;
-                // TODO : Sign-in successful. Perform next steps...
+                initialize();
             });
-            return;
+        } else {
+            initialize();
         }
+    }
 
+    private void initialize() {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new MapViewFragment()).commit();
     }
 
