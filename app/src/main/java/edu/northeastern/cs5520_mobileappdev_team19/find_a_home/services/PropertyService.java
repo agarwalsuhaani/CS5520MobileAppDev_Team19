@@ -50,20 +50,28 @@ public class PropertyService {
     public void get(String id) {}
 
     public void getAll(Consumer<List<Property>> callback) {
-        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> {
-            api.getAll().enqueue(new Callback<List<Property>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Property>> call, @NonNull Response<List<Property>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        callback.accept(response.body());
-                    }
-                }
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getAll().enqueue(setAPICallback(callback)));
+    }
 
-                @Override
-                public void onFailure(@NonNull Call<List<Property>> call, @NonNull Throwable t) {
-                    // TODO : Handle failure
+    public void getAll(double latitude, double longitude, double distanceInKMs, Consumer<List<Property>> callback) {
+        String center = String.format("%s,%s", latitude, longitude);
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getNearby(center, distanceInKMs)
+                .enqueue(setAPICallback(callback)));
+    }
+
+    private <T> Callback<T> setAPICallback(Consumer<T> callback) {
+        return new Callback<T>() {
+            @Override
+            public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.accept(response.body());
                 }
-            });
-        });
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
+                // TODO : Handle failure
+            }
+        };
     }
 }

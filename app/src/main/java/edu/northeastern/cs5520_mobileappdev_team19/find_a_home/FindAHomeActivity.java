@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 
 public class FindAHomeActivity extends AppCompatActivity {
-
     private FirebaseUser user;
 
     @Override
@@ -30,9 +29,15 @@ public class FindAHomeActivity extends AppCompatActivity {
         if (user == null) {
             requestSignIn(user -> {
                 this.user = user;
-                // TODO : Sign-in successful. Perform next steps...
+                initialize();
             });
+        } else {
+            initialize();
         }
+    }
+
+    private void initialize() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new MapViewFragment()).commit();
     }
 
     private void requestSignIn(Consumer<FirebaseUser> callback) {
