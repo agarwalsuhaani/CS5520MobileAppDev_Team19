@@ -11,18 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
-import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
+import edu.northeastern.cs5520_mobileappdev_team19.models.AbstractMessage;
+import edu.northeastern.cs5520_mobileappdev_team19.models.StickerMessage;
 import edu.northeastern.cs5520_mobileappdev_team19.services.StickerService;
 import edu.northeastern.cs5520_mobileappdev_team19.services.UserService;
 
 public class StickerReceivedAdapter extends RecyclerView.Adapter<StickerReceivedViewHolder> {
-    private final List<Message> messages;
+    private final List<AbstractMessage<Integer>> stickerMessages;
     private final Context context;
     private final UserService userService;
     private StickerService stickerService;
 
     public StickerReceivedAdapter(Context context, StickerService stickerService) {
-        this.messages = new ArrayList<>();
+        this.stickerMessages = new ArrayList<>();
         this.context = context;
         this.stickerService = stickerService;
         this.userService = new UserService();
@@ -36,20 +37,20 @@ public class StickerReceivedAdapter extends RecyclerView.Adapter<StickerReceived
 
     @Override
     public void onBindViewHolder(@NonNull StickerReceivedViewHolder holder, int position) {
-        Message message = messages.get(position);
-        holder.sticker.setImageResource(stickerService.getById(message.getStickerId()).getId());
-        userService.getUser(message.getSenderId(), (user) -> holder.receivedFrom.setText(user.getUsername()), (error) -> {});
-        holder.timestamp.setText(message.getTimestampAsString());
+        AbstractMessage<Integer> stickerMessage = stickerMessages.get(position);
+        holder.sticker.setImageResource(stickerService.getById(stickerMessage.getContent()).getId());
+        userService.getUser(stickerMessage.getSenderId(), (user) -> holder.receivedFrom.setText(user.getUsername()), (error) -> {});
+        holder.timestamp.setText(stickerMessage.getTimestampAsString());
     }
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        return stickerMessages.size();
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages.clear();
-        this.messages.addAll(messages);
+    public void setMessages(List<AbstractMessage<Integer>> stickerMessages) {
+        this.stickerMessages.clear();
+        this.stickerMessages.addAll(stickerMessages);
         this.notifyDataSetChanged();
     }
 }

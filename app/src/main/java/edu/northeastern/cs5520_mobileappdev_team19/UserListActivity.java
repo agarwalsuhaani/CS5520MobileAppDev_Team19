@@ -50,7 +50,7 @@ public class UserListActivity extends AppCompatActivity {
     private User loggedInUser;
     private static final String LOGGED_IN_USER_ID = "LOGGED_IN_USER_ID";
     private static int notificationId = 1;
-    private MessageService messageService;
+    private MessageService<Integer> messageService;
     private long activityStartupTime = Instant.now().toEpochMilli();
 
     @Override
@@ -61,7 +61,7 @@ public class UserListActivity extends AppCompatActivity {
         userRecyclerView = findViewById(R.id.user_list_recycler_view);
         userRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         userService = new UserService();
-        messageService = new MessageService();
+        messageService = new MessageService<Integer>();
         initialize();
     }
 
@@ -157,7 +157,7 @@ public class UserListActivity extends AppCompatActivity {
             if (sender == null) {
                 return;
             }
-            Bitmap icon = BitmapFactory.decodeResource(getResources(), message.getStickerId());
+            Bitmap icon = BitmapFactory.decodeResource(getResources(), message.getContent());
 
 
             Intent intent = new Intent(this, ChatActivity.class);

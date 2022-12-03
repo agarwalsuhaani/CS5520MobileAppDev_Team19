@@ -10,47 +10,47 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
-import edu.northeastern.cs5520_mobileappdev_team19.models.User;
+import edu.northeastern.cs5520_mobileappdev_team19.models.AbstractMessage;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.MessagesViewAdapter;
-import edu.northeastern.cs5520_mobileappdev_team19.utils.UserViewAdapter;
 
-public class MessageService {
+public class MessageService<T> {
     private final DatabaseReference messagesDatabase;
     private static final String MESSAGES = "messages";
     private static final String SENDER_ID_KEY_NAME = "senderId";
     private static final String RECIPIENT_ID_KEY_NAME = "recipientId";
     private static final String SENDER_RECIPIENT_PAIR_KEY_NAME = "senderRecipientPairKey";
     private ChildEventListener handleMessageReceivedNotifications;
-
+    private final GenericTypeIndicator<AbstractMessage<T>> typeIndicator;
     public MessageService() {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         messagesDatabase = database.child(MESSAGES);
+        this.typeIndicator = new GenericTypeIndicator<AbstractMessage<T>>() {};
     }
 
-    public void send(Message message) {
-        messagesDatabase.child(message.getId()).setValue(message);
+    public void send(AbstractMessage<T> stickerMessage) {
+        messagesDatabase.child(stickerMessage.getId()).setValue(stickerMessage);
     }
 
-    private ValueEventListener getValueEventListenerForMessages(Consumer<List<Message>> callback) {
+    private ValueEventListener getValueEventListenerForMessages(Consumer<List<AbstractMessage<T>>> callback) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Message> messages = new ArrayList<>();
+                List<AbstractMessage<T>> stickerMessages = new ArrayList<>();
 
                 if (snapshot.exists()) {
                     for (DataSnapshot item : snapshot.getChildren()) {
-                        Message message = item.getValue(Message.class);
-                        messages.add(message);
+                        AbstractMessage<T> stickerMessage = item.getValue(typeIndicator);
+                        stickerMessages.add(stickerMessage);
                     }
                 }
-                callback.accept(messages);
+                callback.accept(stickerMessages);
             }
 
             @Override
@@ -60,7 +60,7 @@ public class MessageService {
         };
     }
 
-    public void handleMessageReceivedNotifications(String currentUserId, Consumer<Message> callback) {
+    public void handleMessageReceivedNotifications(String currentUserId, Consumer<AbstractMessage<T>> callback) {
         if (handleMessageReceivedNotifications != null) {
             messagesDatabase.removeEventListener(handleMessageReceivedNotifications);
             handleMessageReceivedNotifications = null;
@@ -68,10 +68,10 @@ public class MessageService {
         handleMessageReceivedNotifications = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Message message = snapshot.getValue(Message.class);
-                if (message != null && message.getRecipientId().equals(currentUserId)) {
+                AbstractMessage<T> stickerMessage = snapshot.getValue(typeIndicator);
+                if (stickerMessage != null && stickerMessage.getRecipientId().equals(currentUserId)) {
                     // Call message received callback.
-                    callback.accept(message);
+                    callback.accept(stickerMessage);
                 }
             }
 
@@ -104,13 +104,13 @@ public class MessageService {
         messagesDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Message message = snapshot.getValue(Message.class);
-                if (message != null && ((message.getRecipientId().equals(currentUserId) && message.getSenderId().equals(otherUserId))
-                        || (message.getRecipientId().equals(otherUserId) && message.getSenderId().equals(currentUserId)))) {
-                    messagesViewAdapter.newMessage(message);
+                AbstractMessage<T> stickerMessage = snapshot.getValue(typeIndicator);
+                if (stickerMessage != null && ((stickerMessage.getRecipientId().equals(currentUserId) && stickerMessage.getSenderId().equals(otherUserId))
+                        || (stickerMessage.getRecipientId().equals(otherUserId) && stickerMessage.getSenderId().equals(currentUserId)))) {
+                    messagesViewAdapter.newMessage(stickerMessage);
                     rv.smoothScrollToPosition(messagesViewAdapter.getItemCount() - 1);
 
-                    if (message.getRecipientId().equals(currentUserId)) {
+                    if (stickerMessage.getRecipientId().equals(currentUserId)) {
                         // Call message received callback.
                     }
                 }
@@ -138,22 +138,22 @@ public class MessageService {
         });
     }
 
-    private void getFilteredMessages(String key, String value, Consumer<List<Message>> callback) {
+    private void getFilteredMessages(String key, String value, Consumer<List<AbstractMessage<T>>> callback) {
         messagesDatabase.orderByChild(key).equalTo(value)
                 .addListenerForSingleValueEvent(getValueEventListenerForMessages(callback));
     }
 
-    public void getMessagesReceivedBy(String recipientId, Consumer<List<Message>> callback) {
+    public void getMessagesReceivedBy(String recipientId, Consumer<List<AbstractMessage<T>>> callback) {
         getFilteredMessages(RECIPIENT_ID_KEY_NAME, recipientId, callback);
     }
 
-    public void getMessagesSentBy(String senderId, Consumer<List<Message>> callback) {
+    public void getMessagesSentBy(String senderId, Consumer<List<AbstractMessage<T>>> callback) {
         getFilteredMessages(SENDER_ID_KEY_NAME, senderId, callback);
     }
 
-    public void getMessages(String senderId, String recipientId, Consumer<List<Message>> callback) {
+    public void getMessages(String senderId, String recipientId, Consumer<List<AbstractMessage<T>>> callback) {
         messagesDatabase
-                .orderByChild(SENDER_RECIPIENT_PAIR_KEY_NAME).equalTo(Message.getSenderRecipientPairKey(senderId, recipientId))
+                .orderByChild(SENDER_RECIPIENT_PAIR_KEY_NAME).equalTo(AbstractMessage.getSenderRecipientPairKey(senderId, recipientId))
                 .addListenerForSingleValueEvent(getValueEventListenerForMessages(callback));
     }
 }

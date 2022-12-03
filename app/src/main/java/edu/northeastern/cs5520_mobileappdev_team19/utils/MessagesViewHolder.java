@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
-import edu.northeastern.cs5520_mobileappdev_team19.models.Message;
 
 public class MessagesViewHolder extends RecyclerView.ViewHolder {
     final TextView messageTimestamp;
