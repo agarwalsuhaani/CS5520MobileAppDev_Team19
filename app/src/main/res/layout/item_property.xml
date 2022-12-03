@@ -7,7 +7,7 @@
     android:id="@+id/item_property">
 
     <ImageView
-        android:id="@+id/iv_propertyList"
+        android:id="@+id/iv_propertyImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
         android:layout_marginTop="16dp"
         android:text="Apartment Name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_propertyList" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_propertyImage" />
 
     <TextView
         android:id="@+id/tv_propertyAddress"
