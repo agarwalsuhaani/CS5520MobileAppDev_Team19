@@ -7,14 +7,15 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 interface IPropertyAPI {
     @GET("properties")
     Call<List<Property>> getAll();
 
-    @GET("properties")
-    Call<List<Property>> getAllWithinRadius(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") double radiusInMeters);
+    @GET("properties/nearby/{center}")
+    Call<List<Property>> getNearby(@Path("center") String center, @Query("distance") double distanceInKMs);
 
     @POST("properties")
     Call<Property> create(@Body Property property);

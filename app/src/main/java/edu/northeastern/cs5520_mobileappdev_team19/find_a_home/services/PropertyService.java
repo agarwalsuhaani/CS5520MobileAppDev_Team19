@@ -53,8 +53,9 @@ public class PropertyService {
         FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getAll().enqueue(setAPICallback(callback)));
     }
 
-    public void getAll(double latitude, double longitude, double radiusInMeters, Consumer<List<Property>> callback) {
-        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getAllWithinRadius(latitude, longitude, radiusInMeters)
+    public void getAll(double latitude, double longitude, double distanceInKMs, Consumer<List<Property>> callback) {
+        String center = String.format("%s,%s", latitude, longitude);
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getNearby(center, distanceInKMs)
                 .enqueue(setAPICallback(callback)));
     }
 

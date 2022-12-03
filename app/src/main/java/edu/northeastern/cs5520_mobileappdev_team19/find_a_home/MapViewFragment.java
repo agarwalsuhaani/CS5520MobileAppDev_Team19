@@ -29,7 +29,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.Property
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     // TODO : We can make this configurable
-    private static final int MAP_VIEW_SEARCH_RADIUS_IN_METERS = 10000;
+    private static final int MAP_VIEW_SEARCH_RADIUS_IN_KMS = 10;
     private static final int MAP_PADDING = 100;
     private GoogleMap mapView;
     private SearchView locationSearchView;
@@ -65,7 +65,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initializeLocationSearchView() {
-        locationSearchView = getView().findViewById(R.id.location_search_view);
+        locationSearchView = requireView().findViewById(R.id.location_search_view);
         locationSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -78,7 +78,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                         PropertyService.getInstance().getAll(
                                 address.getLatitude(),
                                 address.getLongitude(),
-                                MAP_VIEW_SEARCH_RADIUS_IN_METERS,
+                                MAP_VIEW_SEARCH_RADIUS_IN_KMS,
                                 properties -> setPropertiesOnMap(mapView, properties));
                     }
                 } catch (IOException e) {
