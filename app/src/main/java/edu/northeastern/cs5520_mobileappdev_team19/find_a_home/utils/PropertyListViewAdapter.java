@@ -15,7 +15,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property;
 
 public class PropertyListViewAdapter extends RecyclerView.Adapter<PropertyListViewHolder> {
-    private List<Property> propertyList;
+    private final List<Property> propertyList;
     private final Context context;
 
     public PropertyListViewAdapter(List<Property> propertyList, Context context) {
