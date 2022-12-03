@@ -29,8 +29,12 @@ public class MessageService<T> {
     private ChildEventListener handleMessageReceivedNotifications;
     private final GenericTypeIndicator<AbstractMessage<T>> typeIndicator;
     public MessageService() {
+        this(MESSAGES);
+    }
+
+    public MessageService(String messagesKey) {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        messagesDatabase = database.child(MESSAGES);
+        messagesDatabase = database.child(messagesKey);
         this.typeIndicator = new GenericTypeIndicator<AbstractMessage<T>>() {};
     }
 
