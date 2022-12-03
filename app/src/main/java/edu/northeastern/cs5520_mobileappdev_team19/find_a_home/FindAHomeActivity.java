@@ -1,18 +1,14 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -24,6 +20,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.R;
 
 public class FindAHomeActivity extends AppCompatActivity {
     private FirebaseUser user;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +39,9 @@ public class FindAHomeActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setOnItemSelectedListener(bottomNavigationViewOnItemSelectedListener);
-        // TODO : Decide on default selection
-        bottomNavigationView.setSelectedItemId(R.id.map_view_menu_item);
+        bottomNavigationView.setSelectedItemId(R.id.property_list_menu_item);
     }
 
     private void requestSignIn(Consumer<FirebaseUser> callback) {
@@ -68,15 +64,18 @@ public class FindAHomeActivity extends AppCompatActivity {
     }
 
     private final BottomNavigationView.OnItemSelectedListener bottomNavigationViewOnItemSelectedListener = item -> {
-        Fragment selectedFragment = new MapViewFragment();
+        if (bottomNavigationView == null || bottomNavigationView.getSelectedItemId() == item.getItemId()) {
+            return true;
+        }
+
         if (item.getItemId() == R.id.property_list_menu_item) {
             // TODO : Set PropertyListFragment
+        } else if (item.getItemId() == R.id.map_view_menu_item) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new MapViewFragment()).commit();
         } else if (item.getItemId() == R.id.messages_menu_item) {
             // TODO : Set MessagesFragment
-        } else {
-            selectedFragment = new MapViewFragment();
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, selectedFragment).commit();
+
         return true;
     };
 }
