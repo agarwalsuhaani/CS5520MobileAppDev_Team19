@@ -17,6 +17,9 @@ interface IPropertyAPI {
     @GET("properties/nearby/{center}")
     Call<List<Property>> getNearby(@Path("center") String center, @Query("distance") double distanceInKMs);
 
+    @GET("properties/{id}")
+    Call<Property> getById(@Path("id") String id);
+
     @POST("properties")
     Call<Property> create(@Body Property property);
 }
