@@ -74,6 +74,8 @@ public class FindAHomeActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new MapViewFragment()).commit();
         } else if (item.getItemId() == R.id.messages_menu_item) {
             // TODO : Set MessagesFragment
+        } else if (item.getItemId() == R.id.profile_menu_item) {
+            // TODO : Set ProfileFragment
         }
 
         return true;
