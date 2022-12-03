@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.PropertyListViewAdapter;
-import edu.northeastern.cs5520_mobileappdev_team19.utils.StickerSentViewAdapter;
 
 public class FindAHomeActivity extends AppCompatActivity {
 
