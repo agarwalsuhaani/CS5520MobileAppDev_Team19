@@ -24,30 +24,26 @@ public class PropertyService {
     }
 
     public void add(Property property) {
-        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> {
-            api.create(property).enqueue(new Callback<Property>() {
-                @Override
-                public void onResponse(@NonNull Call<Property> call, @NonNull Response<Property> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        // TODO : Handle success
-                        System.out.println("Property created");
-                    }
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.create(property).enqueue(new Callback<Property>() {
+            @Override
+            public void onResponse(@NonNull Call<Property> call, @NonNull Response<Property> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // TODO : Handle success
+                    System.out.println("Property created");
                 }
+            }
 
-                @Override
-                public void onFailure(@NonNull Call<Property> call, @NonNull Throwable t) {
-                    // TODO : Handle failure
-                    System.out.println(t.getMessage());
-                }
-            });
-        });
+            @Override
+            public void onFailure(@NonNull Call<Property> call, @NonNull Throwable t) {
+                // TODO : Handle failure
+                System.out.println(t.getMessage());
+            }
+        }));
     }
 
-    public void update(Property property) {}
-
-    public void delete(String id) {}
-
-    public void get(String id) {}
+    public void get(String id, Consumer<Property> callback) {
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getById(id).enqueue(setAPICallback(callback)));
+    }
 
     public void getAll(Consumer<List<Property>> callback) {
         FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getAll().enqueue(setAPICallback(callback)));
