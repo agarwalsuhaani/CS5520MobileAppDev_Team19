@@ -49,4 +49,20 @@ public class UserService {
             }
         });
     }
+
+    public void registerUser(User user, Consumer<User> callback) {
+        api.registerUser(user).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.accept(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, Throwable t) {
+                // TODO : Handle failure
+            }
+        });
+    }
 }
