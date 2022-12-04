@@ -1,19 +1,17 @@
 package edu.northeastern.cs5520_mobileappdev_team19;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import edu.northeastern.cs5520_mobileappdev_team19.models.ChatMessage;
-import edu.northeastern.cs5520_mobileappdev_team19.models.StickerMessage;
 import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.ChatMessagesViewAdapter;
 import edu.northeastern.cs5520_mobileappdev_team19.utils.MessagesViewAdapter;
-import edu.northeastern.cs5520_mobileappdev_team19.utils.StickerMessagesViewAdapter;
 
 public class MessageChatActivity extends AppCompatActivity {
     public static String NOTIFICATION_CHANNEL_ID = "Chat notifications";
@@ -50,5 +48,6 @@ public class MessageChatActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
         messageService.send(new ChatMessage(senderId, recipientId, chatMessageInput.getText().toString()));
+        chatMessageInput.setText("");
     }
 }

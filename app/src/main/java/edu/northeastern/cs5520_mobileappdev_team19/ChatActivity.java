@@ -26,7 +26,7 @@ public class ChatActivity extends AppCompatActivity {
     public static final String RECIPIENT_USERNAME = "RECIPIENT_NAME";
     private String senderId;
     private String recipientId;
-    private MessagesViewAdapter<Long> messagesViewAdapter;
+    private MessagesViewAdapter<Integer> messagesViewAdapter;
     private RecyclerView messagesRecyclerView;
     private MessageService<Integer> messageService;
 

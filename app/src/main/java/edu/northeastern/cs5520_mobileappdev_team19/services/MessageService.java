@@ -14,7 +14,9 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import edu.northeastern.cs5520_mobileappdev_team19.models.AbstractMessage;
@@ -104,7 +106,7 @@ public class MessageService<T> {
         messagesDatabase.addChildEventListener(handleMessageReceivedNotifications);
     }
 
-    public void handleMessageReceived(RecyclerView rv, MessagesViewAdapter messagesViewAdapter, String currentUserId, String otherUserId) {
+    public void handleMessageReceived(RecyclerView rv, MessagesViewAdapter<T> messagesViewAdapter, String currentUserId, String otherUserId) {
         messagesDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -153,6 +155,25 @@ public class MessageService<T> {
 
     public void getMessagesSentBy(String senderId, Consumer<List<AbstractMessage<T>>> callback) {
         getFilteredMessages(SENDER_ID_KEY_NAME, senderId, callback);
+    }
+
+    public void getUsersWithConversations(String userId, Consumer<List<String>> callback) {
+        getMessagesReceivedBy(userId, (List<AbstractMessage<T>> receivedMessages) -> {
+            getMessagesSentBy(userId, (List<AbstractMessage<T>> sentMessages) -> {
+                List<AbstractMessage<T>> messages = new ArrayList<>();
+                messages.addAll(receivedMessages);
+                messages.addAll(sentMessages);
+
+                Set<String> userIds = new HashSet<>();
+
+                for (AbstractMessage<T> message: messages) {
+                    userIds.add(message.getRecipientId());
+                    userIds.add(message.getSenderId());
+                }
+
+                callback.accept(new ArrayList<>(userIds));
+            });
+        });
     }
 
     public void getMessages(String senderId, String recipientId, Consumer<List<AbstractMessage<T>>> callback) {
