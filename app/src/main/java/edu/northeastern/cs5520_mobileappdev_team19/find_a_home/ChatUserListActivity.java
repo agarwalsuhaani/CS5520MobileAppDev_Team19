@@ -47,7 +47,7 @@ public class ChatUserListActivity extends AppCompatActivity {
             userService.getAll((users) -> {
                 // Only shows those users who we have interacted with before.
                 this.users = users.stream().filter(u -> userIds.contains(u.getId())).collect(Collectors.toList());
-                userViewAdapter = new ChatUserViewAdapter(users, this, loggedInUser);
+                userViewAdapter = new ChatUserViewAdapter(this.users, this, loggedInUser);
                 userRecyclerView.setAdapter(userViewAdapter);
             });
         });

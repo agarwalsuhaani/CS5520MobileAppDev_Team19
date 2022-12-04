@@ -17,14 +17,11 @@ public class User {
     @SerializedName("email")
     private final String email;
 
-    private final long contactNumber;
-
-    public User(String firstName, String lastName, String email, long contactNumber) {
+    public User(String id, String firstName, String lastName, String email) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.contactNumber = contactNumber;
-        this.id = UUID.randomUUID().toString();
     }
 
     public String getId() {
@@ -41,10 +38,6 @@ public class User {
 
     public String getEmail() {
         return email;
-    }
-
-    public long getContactNumber() {
-        return contactNumber;
     }
 
     public String getFullName() {

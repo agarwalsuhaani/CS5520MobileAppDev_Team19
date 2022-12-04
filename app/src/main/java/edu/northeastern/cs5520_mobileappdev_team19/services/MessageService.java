@@ -170,7 +170,7 @@ public class MessageService<T> {
                     userIds.add(message.getRecipientId());
                     userIds.add(message.getSenderId());
                 }
-
+                userIds.remove(userId);
                 callback.accept(new ArrayList<>(userIds));
             });
         });
