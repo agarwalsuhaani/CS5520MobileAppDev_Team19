@@ -4,11 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class Property {
-    // TODO : Add to model
-    private transient final String id;
+    @SerializedName("id")
+    private String id;
 
     // TODO : Add to model
     private transient final String userId;
@@ -68,7 +67,6 @@ public class Property {
             Date availableFrom,
             Date availableTo,
             List<Amenity> amenities) {
-        this.id = UUID.randomUUID().toString();
         this.userId = userId;
         this.bedCount = bedCount;
         this.bathCount = bathCount;
