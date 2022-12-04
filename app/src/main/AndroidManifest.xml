@@ -25,6 +25,12 @@
             android:name=".MessageChatActivity"
             android:exported="false" />
         <activity
+            android:name=".find_a_home.PropertyDetailActivity"
+            android:exported="false" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+        <activity
             android:name=".find_a_home.FindAHomeActivity"
             android:exported="false" />
         <activity
