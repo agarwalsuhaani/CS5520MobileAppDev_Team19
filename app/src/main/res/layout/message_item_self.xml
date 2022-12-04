@@ -32,5 +32,13 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:contentDescription="Sent sticker" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chat_message_content"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

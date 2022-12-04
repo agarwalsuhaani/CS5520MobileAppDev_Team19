@@ -16,7 +16,7 @@ public class StickerReceivedActivity extends AppCompatActivity {
     private RecyclerView stickerReceivedRecyclerView;
     private StickerReceivedAdapter stickerReceivedAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private MessageService messageService;
+    private MessageService<Integer> messageService;
     private StickerService stickerService;
 
     @Override
@@ -30,7 +30,7 @@ public class StickerReceivedActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         stickerReceivedRecyclerView.setLayoutManager(layoutManager);
 
-        messageService = new MessageService();
+        messageService = new MessageService<Integer>();
         this.stickerService = StickerService.getInstance(this);
 
         stickerReceivedAdapter = new StickerReceivedAdapter(this, stickerService);
