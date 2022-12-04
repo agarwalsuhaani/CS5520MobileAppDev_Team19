@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/property_list_menu_item"
+        android:icon="@drawable/ic_baseline_view_list"
+        android:title="Listings" />
+
+    <item
+        android:id="@+id/map_view_menu_item"
+        android:icon="@drawable/ic_baseline_map"
+        android:title="Map" />
+
+    <item
+        android:id="@+id/messages_menu_item"
+        android:icon="@drawable/ic_baseline_message"
+        android:title="Messages" />
+
+    <item
+        android:id="@+id/profile_menu_item"
+        android:icon="@drawable/ic_baseline_account_circle"
+        android:title="Profile" />
+</menu>
