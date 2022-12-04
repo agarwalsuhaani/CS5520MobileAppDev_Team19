@@ -1,6 +1,5 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +16,7 @@ public class PropertyListViewHolder extends RecyclerView.ViewHolder {
 
     public PropertyListViewHolder(@NonNull View itemView) {
         super(itemView);
-        iv_propertyImage = itemView.findViewById(R.id.iv_propertyList);
+        iv_propertyImage = itemView.findViewById(R.id.iv_propertyImage);
         tv_propertyName = itemView.findViewById(R.id.tv_propertyName);
         tv_propertyAddress = itemView.findViewById(R.id.tv_propertyAddress);
     }
