@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +40,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mapView;
     private SearchView locationSearchView;
     private View propertyInfoWindowView;
+    private ImageView searchMap;
 
     public MapViewFragment() {
     }
@@ -61,6 +63,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mapView = googleMap;
         initializeLocationSearchView();
+        initializeSearchMapButton();
         PropertyService.getInstance().getAll(properties -> setPropertiesOnMap(mapView, properties));
     }
 
@@ -97,6 +100,21 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+    }
+
+    private void initializeSearchMapButton() {
+        searchMap = requireView().findViewById(R.id.search_map_button);
+        searchMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng center = mapView.getCameraPosition().target;
+                PropertyService.getInstance().getAll(
+                        center.latitude,
+                        center.longitude,
+                        MAP_VIEW_SEARCH_RADIUS_IN_KMS,
+                        properties -> setPropertiesOnMap(mapView, properties));
             }
         });
     }
