@@ -40,7 +40,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mapView;
     private SearchView locationSearchView;
     private View propertyInfoWindowView;
-    private ImageView searchMap;
 
     public MapViewFragment() {
     }
@@ -105,7 +104,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initializeSearchMapButton() {
-        searchMap = requireView().findViewById(R.id.search_map_button);
+        ImageView searchMap = requireView().findViewById(R.id.search_map_button);
         searchMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

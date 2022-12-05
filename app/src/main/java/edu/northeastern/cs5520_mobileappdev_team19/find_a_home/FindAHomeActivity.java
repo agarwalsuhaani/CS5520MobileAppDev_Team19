@@ -1,10 +1,11 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -46,7 +47,7 @@ public class FindAHomeActivity extends AppCompatActivity {
     private void initialize() {
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setOnItemSelectedListener(bottomNavigationViewOnItemSelectedListener);
-        bottomNavigationView.setSelectedItemId(R.id.property_list_menu_item);
+        setMainContainerFragment(new PropertyListFragment());
     }
 
     private void requestSignIn(Consumer<FirebaseUser> callback) {
@@ -83,16 +84,19 @@ public class FindAHomeActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.property_list_menu_item) {
-            // TODO : Set PropertyListFragment
+            setMainContainerFragment(new PropertyListFragment());
         } else if (item.getItemId() == R.id.map_view_menu_item) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new MapViewFragment()).commit();
+            setMainContainerFragment(new MapViewFragment());
         } else if (item.getItemId() == R.id.messages_menu_item) {
-            // TODO : Set MessagesFragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ChatUserListFragment()).commit();
+            setMainContainerFragment(new ChatUserListFragment());
         } else if (item.getItemId() == R.id.profile_menu_item) {
             // TODO : Set ProfileFragment
         }
 
         return true;
     };
+
+    private void setMainContainerFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
+    }
 }
