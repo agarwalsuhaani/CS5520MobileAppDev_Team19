@@ -10,14 +10,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 
 public class PropertyListViewHolder extends RecyclerView.ViewHolder {
-    final ImageView iv_propertyImage;
-    final TextView tv_propertyName;
-    final TextView tv_propertyAddress;
+    final ImageView propertyImage;
+    final TextView propertyAddress;
+    final TextView propertyBedCount;
+    final TextView propertyBathCount;
+    final TextView propertyRent;
+    final TextView propertyAreaInSquareFeet;
 
     public PropertyListViewHolder(@NonNull View itemView) {
         super(itemView);
-        iv_propertyImage = itemView.findViewById(R.id.iv_propertyImage);
-        tv_propertyName = itemView.findViewById(R.id.tv_propertyName);
-        tv_propertyAddress = itemView.findViewById(R.id.tv_propertyAddress);
+        propertyImage = itemView.findViewById(R.id.iv_property_image);
+        propertyAddress = itemView.findViewById(R.id.tv_property_address);
+        propertyBedCount = itemView.findViewById(R.id.tv_property_bed_count);
+        propertyBathCount = itemView.findViewById(R.id.tv_property_bath_count);
+        propertyRent = itemView.findViewById(R.id.tv_property_rent);
+        propertyAreaInSquareFeet = itemView.findViewById(R.id.tv_property_area_square_feet);
     }
 }
