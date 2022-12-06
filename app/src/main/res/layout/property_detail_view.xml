@@ -9,71 +9,84 @@
             type="edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property" />
     </data>
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:columnCount="2"
-        android:paddingTop="30dp">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_columnSpan="2"
-            android:layout_columnWeight="1">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:columnCount="2"
+            android:paddingTop="30dp">
 
-            <include
-                layout="@layout/property_detail_item"
-                app:itemIcon="@{@drawable/ic_baseline_pin_drop_24}"
-                app:itemText="@{property.streetAddress}" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
 
-        <LinearLayout
-            android:layout_columnSpan="1"
-            android:layout_columnWeight="1">
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_pin_drop_24}"
+                    app:itemText="@{property.streetAddress}" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/property_detail_item"
-                app:itemIcon="@{@drawable/ic_baseline_bed_24}"
-                app:itemText="@{Integer.toString(property.bedCount)}" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_columnSpan="1"
+                android:layout_columnWeight="1">
 
-        <LinearLayout
-            android:layout_columnSpan="1"
-            android:layout_columnWeight="1">
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_bed_24}"
+                    app:itemText="@{String.format(`%d bed(s)`, property.bedCount)}" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/property_detail_item"
-                app:itemIcon="@{@drawable/ic_baseline_bathtub_24}"
-                app:itemText="@{Integer.toString(property.bathCount)}" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_columnSpan="1"
+                android:layout_columnWeight="1">
 
-        <LinearLayout
-            android:layout_columnSpan="1"
-            android:layout_columnWeight="1">
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_bathtub_24}"
+                    app:itemText="@{String.format(`%d bath(s)`, property.bathCount)}" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/property_detail_item"
-                app:itemIcon="@{@drawable/ic_baseline_attach_money_24}"
-                app:itemText="@{Double.toString(property.rent)}" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
 
-        <LinearLayout
-            android:layout_columnSpan="1"
-            android:layout_columnWeight="1">
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_attach_money_24}"
+                    app:itemText="@{String.format(`$%,.2f per month`, property.rent)}" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/property_detail_item"
-                app:itemIcon="@{@drawable/ic_baseline_square_foot_24}"
-                app:itemText="@{Double.toString(property.areaInSquareFeet)}" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
 
-        <LinearLayout
-            android:layout_columnSpan="2"
-            android:layout_columnWeight="1">
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_square_foot_24}"
+                    app:itemText="@{String.format(`%,.2f sq. ft.`, property.areaInSquareFeet)}" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/property_detail_item"
-                app:itemIcon="@{@drawable/ic_baseline_location_city_24}"
-                app:itemText="@{String.format(`%s, %s %d`, property.city, property.state, property.zipcode)}" />
-        </LinearLayout>
-    </GridLayout>
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_location_city_24}"
+                    app:itemText="@{String.format(`%s, %s %05d`, property.city, property.state, property.zipcode)}" />
+
+
+            </LinearLayout>
+        </GridLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </layout>
