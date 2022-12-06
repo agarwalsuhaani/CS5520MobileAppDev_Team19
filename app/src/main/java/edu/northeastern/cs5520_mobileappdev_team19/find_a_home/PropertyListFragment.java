@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Calendar;
+import java.util.HashSet;
+
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.PropertyService;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.PropertyFilterDialog;
@@ -19,6 +22,11 @@ import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.PropertyLis
 
 public class PropertyListFragment extends Fragment {
     private PropertyListViewAdapter propertyAdapter;
+    private final PropertyFilterDialog.FilterParams filterParams;
+
+    PropertyListFragment() {
+        this.filterParams = new PropertyFilterDialog.FilterParams(Calendar.getInstance(), Calendar.getInstance(), new HashSet<>());
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,9 +52,11 @@ public class PropertyListFragment extends Fragment {
 
         FloatingActionButton filterPropertiesButton = view.findViewById(R.id.filter_properties_button);
         filterPropertiesButton.setOnClickListener(button -> {
-            PropertyFilterDialog propertyFilterDialog = new PropertyFilterDialog(getContext(), filterParams -> {
-                // TODO : Use params to filter list
+            PropertyFilterDialog propertyFilterDialog = new PropertyFilterDialog(getContext(), filterParams);
+            propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_POSITIVE, "Filter", (dialog, which) -> {
+                // TODO : Use filterParams to filter list
             });
+            propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> {});
             propertyFilterDialog.show();
         });
 

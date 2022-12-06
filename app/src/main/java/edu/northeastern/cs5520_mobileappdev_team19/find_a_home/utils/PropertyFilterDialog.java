@@ -1,82 +1,76 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
-import java.text.SimpleDateFormat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.function.Consumer;
+import java.util.Set;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Amenity;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.AmenityService;
 
 public class PropertyFilterDialog extends AlertDialog {
-    private static final String DATE_FORMAT = "MM/dd/yyyy";
 
-    public PropertyFilterDialog(Context context, Consumer<FilterParams> callback) {
+    public PropertyFilterDialog(Context context, FilterParams filterParams) {
         super(context);
         setTitle("Filter properties");
 
         View propertyFilterView = LayoutInflater.from(getContext()).inflate(R.layout.property_filter, null);
         setView(propertyFilterView);
 
-        Calendar availableFrom = Calendar.getInstance();
-        Calendar availableTo = Calendar.getInstance();
-
         EditText filterAvailableFrom = propertyFilterView.findViewById(R.id.filter_available_from);
-        filterAvailableFrom.setOnClickListener(getDateOnClickListener(availableFrom));
+        filterAvailableFrom.setText(DateUtils.toString(filterParams.getAvailableFrom()));
+        filterAvailableFrom.setOnClickListener(getDateOnClickListener(filterParams.getAvailableFrom()));
 
         EditText filterAvailableTo = propertyFilterView.findViewById(R.id.filter_available_to);
-        filterAvailableTo.setOnClickListener(getDateOnClickListener(availableTo));
+        filterAvailableTo.setText(DateUtils.toString(filterParams.getAvailableTo()));
+        filterAvailableTo.setOnClickListener(getDateOnClickListener(filterParams.getAvailableTo()));
 
-        setButton(AlertDialog.BUTTON_POSITIVE, "Filter", (dialog, which) -> {
-            FilterParams params = new FilterParams();
-            params.availableFromInMillis = availableFrom.getTimeInMillis();
-            params.availableToInMillis = availableTo.getTimeInMillis();
-            callback.accept(params);
-        });
+        RecyclerView amenitiesSelectorRecyclerView = propertyFilterView.findViewById(R.id.amenities_selector_recycler_view);
 
-        setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> {});
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        amenitiesSelectorRecyclerView.setLayoutManager(layoutManager);
+        AmenitiesSelectorViewAdapter amenitiesSelectorViewAdapter = new AmenitiesSelectorViewAdapter(getContext(), filterParams.getSelectedAmenities());
+        amenitiesSelectorRecyclerView.setAdapter(amenitiesSelectorViewAdapter);
+
+        AmenityService.getInstance().getAll(amenitiesSelectorViewAdapter::setAmenities);
     }
 
     private View.OnClickListener getDateOnClickListener(Calendar calendar) {
         return view -> {
-            DatePickerDialog dialog = new DatePickerDialog(
-                    getContext(),
-                    new DateSetListener((EditText) view, calendar),
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH));
+            EditTextDatePickerDialog dialog = new EditTextDatePickerDialog(getContext(), (EditText) view, calendar);
             dialog.show();
         };
     }
 
-    private static class DateSetListener implements DatePickerDialog.OnDateSetListener {
-        private final EditText editText;
-        private final Calendar calendar;
-
-        private DateSetListener(EditText editText, Calendar calendar) {
-            this.editText = editText;
-            this.calendar = calendar;
-        }
-
-        @Override
-        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH,month);
-            calendar.set(Calendar.DAY_OF_MONTH,day);
-            SimpleDateFormat dateFormat=new SimpleDateFormat(DATE_FORMAT, Locale.US);
-            editText.setText(dateFormat.format(calendar.getTime()));
-        }
-    }
-
     public static class FilterParams {
-        private long availableFromInMillis;
-        private long availableToInMillis;
+        private final Calendar availableFrom;
+        private final Calendar availableTo;
+        private final Set<Amenity> selectedAmenities;
+
+        public FilterParams(Calendar availableFrom, Calendar availableTo, Set<Amenity> selectedAmenities) {
+            this.availableFrom = availableFrom;
+            this.availableTo = availableTo;
+            this.selectedAmenities = selectedAmenities;
+        }
+
+        public Calendar getAvailableFrom() {
+            return availableFrom;
+        }
+
+        public Calendar getAvailableTo() {
+            return availableTo;
+        }
+
+        public Set<Amenity> getSelectedAmenities() {
+            return selectedAmenities;
+        }
     }
 }
