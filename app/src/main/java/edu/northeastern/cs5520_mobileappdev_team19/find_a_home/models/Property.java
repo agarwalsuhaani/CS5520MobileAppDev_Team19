@@ -10,7 +10,8 @@ public class Property {
     private String id;
 
     // TODO : Add to model
-    private transient final String userId;
+    @SerializedName("user")
+    private final User user;
 
     @SerializedName("bed_count")
     private final int bedCount;
@@ -52,7 +53,7 @@ public class Property {
     private final List<Amenity> amenities;
 
     public Property(
-            String userId,
+            User user,
             int bedCount,
             int bathCount,
             boolean isStudio,
@@ -67,7 +68,7 @@ public class Property {
             Date availableFrom,
             Date availableTo,
             List<Amenity> amenities) {
-        this.userId = userId;
+        this.user = user;
         this.bedCount = bedCount;
         this.bathCount = bathCount;
         this.isStudio = isStudio;
@@ -87,8 +88,8 @@ public class Property {
         return id;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     public int getBedCount() {

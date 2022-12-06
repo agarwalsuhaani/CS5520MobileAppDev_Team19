@@ -23,6 +23,7 @@
             android:exported="false" />
         <activity
             android:name=".find_a_home.PropertyDetailActivity"
+            android:theme="@style/Theme.CS5520_MobileAppDev_Team19.NoActionBar"
             android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
