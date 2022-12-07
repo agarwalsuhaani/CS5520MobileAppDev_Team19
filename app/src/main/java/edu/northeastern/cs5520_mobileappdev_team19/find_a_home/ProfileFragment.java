@@ -15,7 +15,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import edu.northeastern.cs5520_mobileappdev_team19.AboutActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.MainActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.R;
-import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.PropertyFilterDialog;
 
 /**
  * A simple {@link Fragment} subclass.
