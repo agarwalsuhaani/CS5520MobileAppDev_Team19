@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="activity"
+            type="edu.northeastern.cs5520_mobileappdev_team19.find_a_home.PropertyDetailActivity" />
+
+        <variable
             name="property"
             type="edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property" />
     </data>
@@ -54,6 +58,7 @@
         <include
             android:id="@+id/include"
             layout="@layout/property_content_scrolling"
+            app:activity="@{activity}"
             app:property="@{property}" />
 
 
