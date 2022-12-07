@@ -2,14 +2,15 @@ package edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.DateUtils;
 
 public class Property {
     @SerializedName("id")
     private String id;
 
-    // TODO : Add to model
     @SerializedName("user")
     private final User user;
 
@@ -65,8 +66,8 @@ public class Property {
             int zipcode,
             double rent,
             double areaInSquareFeet,
-            Date availableFrom,
-            Date availableTo,
+            LocalDate availableFrom,
+            LocalDate availableTo,
             List<Amenity> amenities) {
         this.user = user;
         this.bedCount = bedCount;
@@ -79,8 +80,8 @@ public class Property {
         this.zipcode = zipcode;
         this.rent = rent;
         this.areaInSquareFeet = areaInSquareFeet;
-        this.availableFromUTC = availableFrom.getTime();
-        this.availableToUTC = availableTo.getTime();
+        this.availableFromUTC = DateUtils.toMilli(availableFrom);
+        this.availableToUTC = DateUtils.toMilli(availableTo);
         this.amenities = amenities;
     }
 
@@ -132,12 +133,12 @@ public class Property {
         return areaInSquareFeet;
     }
 
-    public Date getAvailableFrom() {
-        return new Date(availableFromUTC);
+    public LocalDate getAvailableFrom() {
+        return DateUtils.toLocalDate(availableFromUTC);
     }
 
-    public Date getAvailableTo() {
-        return new Date(availableToUTC);
+    public LocalDate getAvailableTo() {
+        return DateUtils.toLocalDate(availableToUTC);
     }
 
     public List<Amenity> getAmenities() {

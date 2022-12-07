@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:borderWidth="1dp"
-        android:backgroundTint="@color/white"
+        app:tint="@android:color/white"
         android:src="@drawable/ic_baseline_filter_list"
         android:contentDescription="Filter"
         app:layout_constraintBottom_toBottomOf="parent"
