@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="activity"
+            type="edu.northeastern.cs5520_mobileappdev_team19.find_a_home.PropertyDetailActivity" />
+        <variable
+            name="property"
+            type="edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        tools:context=".find_a_home.PropertyDetailActivity"
+        tools:showIn="@layout/activity_property_detail">
+
+        <LinearLayout
+            android:id="@+id/fieldContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="5dp"
+            android:paddingTop="10dp">
+
+            <ProgressBar
+                android:id="@+id/progress_bar_property_detail"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints" />
+
+            <LinearLayout
+                android:id="@+id/property_detail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible">
+
+                <include
+                    layout="@layout/property_detail_view"
+                    app:property="@{property}"
+                    app:activity="@{activity}" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

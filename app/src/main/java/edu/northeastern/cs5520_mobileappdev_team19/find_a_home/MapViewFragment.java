@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.List;
@@ -104,17 +104,14 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initializeSearchMapButton() {
-        ImageView searchMap = requireView().findViewById(R.id.search_map_button);
-        searchMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LatLng center = mapView.getCameraPosition().target;
-                PropertyService.getInstance().getAll(
-                        center.latitude,
-                        center.longitude,
-                        MAP_VIEW_SEARCH_RADIUS_IN_KMS,
-                        properties -> setPropertiesOnMap(mapView, properties));
-            }
+        FloatingActionButton searchMapButton = requireView().findViewById(R.id.search_map_button);
+        searchMapButton.setOnClickListener(view -> {
+            LatLng center = mapView.getCameraPosition().target;
+            PropertyService.getInstance().getAll(
+                    center.latitude,
+                    center.longitude,
+                    MAP_VIEW_SEARCH_RADIUS_IN_KMS,
+                    properties -> setPropertiesOnMap(mapView, properties));
         });
     }
 
