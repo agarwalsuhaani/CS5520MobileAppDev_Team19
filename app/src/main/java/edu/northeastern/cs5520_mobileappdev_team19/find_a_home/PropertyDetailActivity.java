@@ -1,6 +1,7 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -69,6 +70,7 @@ public class PropertyDetailActivity extends AppCompatActivity {
                 propertyLayout.setVisibility(View.VISIBLE);
                 toolBarLayout.setTitle(property.getStreetAddress());
                 binding.setProperty(property);
+                binding.setActivity(this);
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
                 amenitiesRecyclerView.setLayoutManager(layoutManager);
                 AmenitiesListViewAdapter amenitiesListViewAdapter = new AmenitiesListViewAdapter(property.getAmenities(), this);
@@ -83,5 +85,12 @@ public class PropertyDetailActivity extends AppCompatActivity {
         chatActivity.putExtra(ChatActivity.RECIPIENT_ID, property.getUser().getId());
         chatActivity.putExtra(ChatActivity.RECIPIENT_USERNAME, property.getUser().getFullName());
         startActivity(chatActivity);
+    }
+
+    public void openEmail(String email, String address) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data = Uri.parse(String.format("mailto:%s?subject=Enquiry for %s", email, address));
+        intent.setData(data);
+        startActivity(intent);
     }
 }
