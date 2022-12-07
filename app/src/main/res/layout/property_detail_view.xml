@@ -18,8 +18,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:columnCount="2"
-            android:paddingTop="30dp">
+            android:columnCount="2">
+
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Details"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_columnSpan="2"
@@ -80,13 +90,83 @@
                     app:itemIcon="@{@drawable/ic_baseline_location_city_24}"
                     app:itemText="@{String.format(`%s, %s %05d`, property.city, property.state, property.zipcode)}" />
 
-
             </LinearLayout>
         </GridLayout>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:columnCount="2">
+
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Amenities"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/amenities_list_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+        </GridLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:columnCount="2">
+
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contact"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_person_24}"
+                    app:itemText="@{property.user.fullName}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_alternate_email_24}"
+                    app:itemText="@{property.user.email}" />
+            </LinearLayout>
+        </GridLayout>
     </LinearLayout>
 
 </layout>

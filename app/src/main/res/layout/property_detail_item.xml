@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="itemText"
             type="java.lang.String" />
@@ -17,19 +17,20 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="5dp">
 
         <ImageView
             android:id="@+id/property_item_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_margin="5dp"
             android:src="@{itemIcon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/property_item_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorAccent" />
+            app:tint="@color/colorAccent"
+            android:visibility="@{itemIcon != null ? View.VISIBLE : View.GONE}"/>
 
         <TextView
             android:id="@+id/property_item_text"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="@{itemText}"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/property_item_icon"

@@ -1,15 +1,16 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,10 +20,10 @@ import com.google.firebase.auth.FirebaseUser;
 import edu.northeastern.cs5520_mobileappdev_team19.ChatActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.MessageChatActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.R;
-import edu.northeastern.cs5520_mobileappdev_team19.databinding.ActivityGameDetailsBinding;
 import edu.northeastern.cs5520_mobileappdev_team19.databinding.ActivityPropertyDetailBinding;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.PropertyService;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.AmenitiesListViewAdapter;
 
 public class PropertyDetailActivity extends AppCompatActivity {
     public static final String PROPERTY_ID = "PROPERTY_ID";
@@ -35,6 +36,7 @@ public class PropertyDetailActivity extends AppCompatActivity {
     private FirebaseUser loggedInUser;
     private FloatingActionButton sendMessageBtn;
     private LinearLayout propertyLayout;
+    private RecyclerView amenitiesRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class PropertyDetailActivity extends AppCompatActivity {
         progressBar = this.findViewById(R.id.progress_bar_property_detail);
         sendMessageBtn = this.findViewById(R.id.property_detail_message_button);
         propertyLayout = this.findViewById(R.id.property_detail_content);
+        amenitiesRecyclerView = this.findViewById(R.id.amenities_list_recycler_view);
 
         String propertyId = getIntent().getStringExtra(PROPERTY_ID);
         if (propertyId != null) {
@@ -66,6 +69,10 @@ public class PropertyDetailActivity extends AppCompatActivity {
                 propertyLayout.setVisibility(View.VISIBLE);
                 toolBarLayout.setTitle(property.getStreetAddress());
                 binding.setProperty(property);
+                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+                amenitiesRecyclerView.setLayoutManager(layoutManager);
+                AmenitiesListViewAdapter amenitiesListViewAdapter = new AmenitiesListViewAdapter(property.getAmenities(), this);
+                amenitiesRecyclerView.setAdapter(amenitiesListViewAdapter);
             });
         }
     }
