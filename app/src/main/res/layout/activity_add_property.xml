@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".find_a_home.AddProperty">
+
+    <TextView
+        android:id="@+id/tv_BathCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Bath Count: "
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_bathCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter bath count: "
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_BathCount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_BathCount" />
+
+
+    <TextView
+        android:id="@+id/tv_BedCount"
+        android:layout_width="112dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="16dp"
+        android:text="Bed Count: "
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_BathCount"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_BathCount" />
+
+    <EditText
+        android:id="@+id/editText_bedCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter bed count "
+        android:inputType="number"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_BedCount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_BedCount" />
+
+    <TextView
+        android:id="@+id/tv_property_StreetAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Street Address:  "
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_BedCount"
+        app:layout_constraintTop_toBottomOf="@+id/tv_BedCount" />
+
+    <EditText
+        android:id="@+id/editText_streetAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter street address "
+        android:inputType="text"
+        android:minHeight="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_property_StreetAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_property_StreetAddress" />
+
+    <TextView
+        android:id="@+id/tv_isStudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Studio: "
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_property_StreetAddress"
+        app:layout_constraintTop_toBottomOf="@+id/tv_property_StreetAddress" />
+
+    <CheckBox
+        android:id="@+id/checkBox_isStudioYes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:text="Yes"
+        app:layout_constraintStart_toEndOf="@id/tv_isStudio"
+        app:layout_constraintTop_toBottomOf="@id/editText_streetAddress" />
+
+    <CheckBox
+        android:id="@+id/checkBox_isStudioNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:text="No"
+        app:layout_constraintStart_toEndOf="@id/checkBox_isStudioYes"
+        app:layout_constraintTop_toBottomOf="@id/editText_streetAddress" />
+
+
+    <TextView
+        android:id="@+id/tv_State"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="State: "
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_isStudio"
+        app:layout_constraintTop_toBottomOf="@+id/tv_isStudio" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@id/tv_State"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_isStudioNo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zipcode: "
+        android:textSize="20dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/tv_zipcode"
+        app:layout_constraintStart_toStartOf="@+id/tv_State"
+        app:layout_constraintTop_toBottomOf="@+id/tv_State" />
+
+    <EditText
+        android:id="@+id/editText_zipcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter zipcode "
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_zipcode"
+        app:layout_constraintStart_toEndOf="@+id/tv_zipcode" />
+
+    
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
