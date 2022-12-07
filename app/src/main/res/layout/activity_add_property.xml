@@ -153,7 +153,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_zipcode" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editText_rent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Enter rent "
