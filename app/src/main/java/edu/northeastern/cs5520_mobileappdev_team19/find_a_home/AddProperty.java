@@ -115,8 +115,6 @@ public class AddProperty extends Activity {
 
         spinner.setAdapter(dataAdapter);
 
-//        Bundle bundle=getIntent().getExtras();
-//        selectedState = bundle.get("data").toString();
 
         if(checkBoxYes.isChecked()) {
             isStudio = true;
