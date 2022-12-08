@@ -49,21 +49,29 @@ public class PropertyListFragment extends Fragment {
         propertyAdapter = new PropertyListViewAdapter(getContext());
         propertyListRecyclerView.setAdapter(propertyAdapter);
 
-        PropertyService.getInstance().getAll(properties -> {
-            if (properties != null && !properties.isEmpty()) {
-                propertyAdapter.setPropertyList(properties);
-            }
-        });
+        fetchProperties();
 
         FloatingActionButton filterPropertiesButton = view.findViewById(R.id.filter_properties_button);
         filterPropertiesButton.setOnClickListener(button -> {
             PropertyFilterDialog propertyFilterDialog = new PropertyFilterDialog(getContext(), filterParams);
             propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_POSITIVE, "Filter", (dialog, which) -> filterProperties());
             propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> {});
+            propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_NEUTRAL, "Reset", (dialog, which) -> {
+                propertyFilterDialog.resetFilters();
+                fetchProperties();
+            });
             propertyFilterDialog.show();
         });
 
         return view;
+    }
+
+    private void fetchProperties() {
+        PropertyService.getInstance().getAll(properties -> {
+            if (properties != null && !properties.isEmpty()) {
+                propertyAdapter.setPropertyList(properties);
+            }
+        });
     }
 
     private void filterProperties() {
