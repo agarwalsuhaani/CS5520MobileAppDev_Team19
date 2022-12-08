@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +20,10 @@ public class AmenitiesSelectorViewAdapter  extends RecyclerView.Adapter<Amenitie
     private final List<Amenity> amenities;
     private final Set<Amenity> selectedAmenities;
     private final Context context;
+
+    public AmenitiesSelectorViewAdapter(Context context) {
+        this(context, new HashSet<>());
+    }
 
     public AmenitiesSelectorViewAdapter(Context context, Set<Amenity> selectedAmenities) {
         this.context = context;

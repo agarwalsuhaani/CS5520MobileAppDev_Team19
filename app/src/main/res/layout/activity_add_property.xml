@@ -4,239 +4,177 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".find_a_home.AddProperty">
+    tools:context=".find_a_home.AddPropertyActivity">
 
-    <TextView
-        android:id="@+id/tv_BathCount"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_street_address"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Bath Count: "
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.053"
+        android:layout_margin="16dp"
+        android:hint="Street address"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/editText_bathCount"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_street_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_bed_count"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Enter bath count: "
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_BathCount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_BathCount" />
-
-
-    <TextView
-        android:id="@+id/tv_BedCount"
-        android:layout_width="112dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="16dp"
-        android:text="Bed Count: "
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_BathCount"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_margin="16dp"
+        android:hint="Bed count"
+        app:layout_constraintTop_toBottomOf="@id/text_input_street_address"
+        app:layout_constraintBottom_toTopOf="@id/check_box_is_studio"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_BathCount" />
+        app:layout_constraintEnd_toStartOf="@id/text_input_bath_count"
+        app:layout_constraintBaseline_toBaselineOf="@id/text_input_bath_count">
 
-    <EditText
-        android:id="@+id/editText_bedCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter bed count "
-        android:inputType="number"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_BedCount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_BedCount" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_bed_count"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tv_property_StreetAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Street Address:  "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_BedCount"
-        app:layout_constraintTop_toBottomOf="@+id/tv_BedCount" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_streetAddress"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_bath_count"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Enter street address "
-        android:inputType="text"
-        android:minHeight="48dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_property_StreetAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_property_StreetAddress" />
+        android:layout_margin="16dp"
+        android:hint="Bath count"
+        app:layout_constraintTop_toBottomOf="@id/text_input_street_address"
+        app:layout_constraintBottom_toTopOf="@id/check_box_is_studio"
+        app:layout_constraintStart_toEndOf="@id/text_input_bed_count"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/tv_isStudio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Studio: "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_property_StreetAddress"
-        app:layout_constraintTop_toBottomOf="@+id/tv_property_StreetAddress" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_bath_count"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
-        android:id="@+id/checkBox_isStudioYes"
+        android:id="@+id/check_box_is_studio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:text="Yes"
-        app:layout_constraintStart_toEndOf="@id/tv_isStudio"
-        app:layout_constraintTop_toBottomOf="@id/editText_streetAddress" />
+        android:text="Studio"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/text_input_bed_count"
+        app:layout_constraintBottom_toTopOf="@id/text_input_rent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <CheckBox
-        android:id="@+id/checkBox_isStudioNo"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_rent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:text="No"
-        app:layout_constraintStart_toEndOf="@id/checkBox_isStudioYes"
-        app:layout_constraintTop_toBottomOf="@id/editText_streetAddress" />
+        android:layout_margin="16dp"
+        android:hint="Rent"
+        app:layout_constraintTop_toBottomOf="@id/check_box_is_studio"
+        app:layout_constraintBottom_toTopOf="@id/text_input_area"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/tv_city"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_rent"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_area"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="City: "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_isStudio"
-        app:layout_constraintTop_toBottomOf="@+id/tv_isStudio" />
+        android:layout_margin="16dp"
+        android:hint="Area in square feet"
+        app:layout_constraintTop_toBottomOf="@id/text_input_rent"
+        app:layout_constraintBottom_toTopOf="@id/text_input_available_from"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" >
 
-    <EditText
-        android:id="@+id/editText_city"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_area"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_available_from"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Enter city "
-        android:inputType="text"
-        android:minHeight="48dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_city"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_city" />
+        android:layout_margin="16dp"
+        android:hint="Available from"
+        app:layout_constraintTop_toBottomOf="@id/text_input_area"
+        app:layout_constraintBottom_toTopOf="@id/amenities_selector_recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/text_input_available_to"
+        app:layout_constraintBaseline_toBaselineOf="@id/text_input_available_to">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_available_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
-    <TextView
-        android:id="@+id/tv_State"
-        android:layout_width="wrap_content"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_available_to"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="State: "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_city"
-        app:layout_constraintTop_toBottomOf="@+id/tv_city" />
+        android:layout_margin="16dp"
+        android:hint="Available to"
+        app:layout_constraintTop_toBottomOf="@id/text_input_area"
+        app:layout_constraintBottom_toTopOf="@id/amenities_selector_recycler_view"
+        app:layout_constraintStart_toEndOf="@id/text_input_available_from"
+        app:layout_constraintEnd_toEndOf="parent" >
 
-    <Spinner
-        android:id="@+id/spinner_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@id/tv_State"
-        app:layout_constraintTop_toBottomOf="@+id/tv_city" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_available_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
-    <TextView
-        android:id="@+id/tv_zipcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Zipcode: "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_State"
-        app:layout_constraintTop_toBottomOf="@+id/tv_State" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_zipcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter zipcode "
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_zipcode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_zipcode" />
-
-    <TextView
-        android:id="@+id/tv_rent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Rent: "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@id/tv_zipcode"
-        app:layout_constraintTop_toBottomOf="@id/tv_zipcode" />
-
-    <EditText
-        android:id="@+id/editText_rent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter rent "
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_rent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_rent" />
-
-    <TextView
-        android:id="@+id/tv_squareFeet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Square Feet: "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@id/tv_rent"
-        app:layout_constraintTop_toBottomOf="@id/tv_rent" />
-
-    <EditText
-        android:id="@+id/editText_squareFeet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter square feet"
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_squareFeet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_squareFeet" />
-
-
-    <TextView
-        android:id="@+id/tv_availableDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Available Date: "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@id/tv_squareFeet"
-        app:layout_constraintTop_toBottomOf="@id/tv_squareFeet" />
-
-    <TextView
-        android:id="@+id/tv_endDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="End Date: "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@id/tv_availableDate"
-        app:layout_constraintTop_toBottomOf="@id/tv_availableDate" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/amenities_selector_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/text_input_available_from"
+        app:layout_constraintBottom_toTopOf="@id/submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="16dp"
         android:gravity="center"
-        android:onClick="submit"
         android:text="Submit"
+        app:layout_constraintTop_toBottomOf="@id/amenities_selector_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_endDate" />
-
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

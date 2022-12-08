@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <activity android:name=".find_a_home.AddProperty"
+        <activity android:name=".find_a_home.AddPropertyActivity"
             android:exported="false" />
         <activity
             android:name=".MessageChatActivity"
