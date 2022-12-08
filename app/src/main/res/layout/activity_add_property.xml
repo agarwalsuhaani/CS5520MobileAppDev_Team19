@@ -186,6 +186,19 @@
             app:layout_constraintTop_toBottomOf="@id/amenities_selector_recycler_view"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/add_images" />
+
+        <Button
+            android:id="@+id/add_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:onClick="selectImages"
+            android:text="Images"
+            app:layout_constraintTop_toBottomOf="@id/amenities_selector_recycler_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/submit"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

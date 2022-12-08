@@ -1,26 +1,41 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home;
 
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.AmenityService;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.FirebaseStorageService;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.PropertyService;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.AmenitiesSelectorViewAdapter;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.DateUtils;
@@ -36,11 +51,14 @@ public class AddPropertyActivity extends AppCompatActivity {
     private Calendar availableFrom;
     private Calendar availableTo;
     private AmenitiesSelectorViewAdapter amenitiesSelectorViewAdapter;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    List<Uri> fileUris;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_property);
+        fileUris = new ArrayList<>();
 
         editTextStreetAddress = findViewById(R.id.edit_text_street_address);
         editTextBedCount = findViewById(R.id.edit_text_bed_count);
@@ -68,6 +86,29 @@ public class AddPropertyActivity extends AppCompatActivity {
         AmenityService.getInstance().getAll(amenitiesSelectorViewAdapter::setAmenities);
 
         setUpSubmitButton();
+        setupActivityResultListeners();
+    }
+
+    private void setupActivityResultListeners() {
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                (result) -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        assert data != null;
+                        consumeImages(data);
+
+                        if (fileUris.size() > 0) {
+                            FirebaseStorageService firebaseStorageService = FirebaseStorageService.getInstance();
+                            firebaseStorageService.upload(this, fileUris, (files) -> {
+                                Toast.makeText(this, "Files uploaded successfully", Toast.LENGTH_LONG).show();
+                            });
+                        }
+                    } else {
+                        Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void setUpSubmitButton() {
@@ -115,5 +156,43 @@ public class AddPropertyActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog alertDialog = builder.setMessage(message).setCancelable(true).create();
         alertDialog.show();
+    }
+
+    public void selectImages(View view) {
+        // initialising intent
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        Intent galleryIntent = new Intent();
+        // setting type to select to be image
+        galleryIntent.setType("image/*");
+
+        // allowing multiple image to be selected
+        galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        Intent chooser = Intent.createChooser(intent, "Select photo(s)");
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{galleryIntent});
+        activityResultLauncher.launch(chooser);
+    }
+
+    private void consumeImages(Intent data) {
+        if (data.getClipData() != null) {
+            ClipData mClipData = data.getClipData();
+            int itemCount = mClipData.getItemCount();
+            for (int i = 0; i < itemCount; i++) {
+                Uri imageUri = mClipData.getItemAt(i).getUri();
+                fileUris.add(imageUri);
+            }
+        } else if (data.getExtras() != null) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Uri tempUri = getImageUri(getApplicationContext(), photo);
+            fileUris.add(tempUri);
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, UUID.randomUUID().toString(), null);
+        return Uri.parse(path);
     }
 }
