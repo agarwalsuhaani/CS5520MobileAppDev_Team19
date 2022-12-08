@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -66,6 +67,10 @@ public class FindAHomeActivity extends AppCompatActivity {
                             });
                         }
                         callback.accept(user);
+                        Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Sign in required", Toast.LENGTH_LONG).show();
+                        this.onBackPressed();
                     }
                 }
         );
@@ -73,6 +78,7 @@ public class FindAHomeActivity extends AppCompatActivity {
         List<AuthUI.IdpConfig> providers = Collections.singletonList(new AuthUI.IdpConfig.EmailBuilder().build());
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
+                .setIsSmartLockEnabled(false)
                 .setAvailableProviders(providers)
                 .build();
         signInLauncher.launch(signInIntent);
