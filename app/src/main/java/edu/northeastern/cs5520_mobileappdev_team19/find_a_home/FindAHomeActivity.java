@@ -90,9 +90,8 @@ public class FindAHomeActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.messages_menu_item) {
             setMainContainerFragment(new ChatUserListFragment());
         } else if (item.getItemId() == R.id.profile_menu_item) {
-            // TODO : Set ProfileFragment
+            setMainContainerFragment(new ProfileFragment());
         }
-
         return true;
     };
 
