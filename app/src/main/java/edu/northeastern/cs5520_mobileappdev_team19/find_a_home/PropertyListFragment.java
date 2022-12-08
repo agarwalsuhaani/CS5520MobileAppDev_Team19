@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,6 +29,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.PropertyLis
 public class PropertyListFragment extends Fragment {
     private PropertyListViewAdapter propertyAdapter;
     private final PropertyFilterDialog.FilterParams filterParams;
+    private ProgressBar progressBar;
 
     PropertyListFragment() {
         this.filterParams = new PropertyFilterDialog.FilterParams(Calendar.getInstance(), Calendar.getInstance(), new HashSet<>());
@@ -49,6 +51,8 @@ public class PropertyListFragment extends Fragment {
         propertyAdapter = new PropertyListViewAdapter(getContext());
         propertyListRecyclerView.setAdapter(propertyAdapter);
 
+        progressBar = view.findViewById(R.id.progress_bar_property_list);
+
         fetchProperties();
 
         FloatingActionButton filterPropertiesButton = view.findViewById(R.id.filter_properties_button);
@@ -67,14 +71,17 @@ public class PropertyListFragment extends Fragment {
     }
 
     private void fetchProperties() {
+        progressBar.setVisibility(View.VISIBLE);
         PropertyService.getInstance().getAll(properties -> {
             if (properties != null && !properties.isEmpty()) {
                 propertyAdapter.setPropertyList(properties);
             }
+            progressBar.setVisibility(View.GONE);
         });
     }
 
     private void filterProperties() {
+        progressBar.setVisibility(View.VISIBLE);
         // TODO : Consider fetching filtered list through an API
         PropertyService.getInstance().getAll(properties -> {
             if (properties != null && !properties.isEmpty()) {
@@ -87,6 +94,7 @@ public class PropertyListFragment extends Fragment {
                 }).collect(Collectors.toList());
                 propertyAdapter.setPropertyList(filteredProperties);
             }
+            progressBar.setVisibility(View.GONE);
         });
     }
 }

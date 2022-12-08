@@ -1,6 +1,5 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +29,6 @@ public class ChatUserListFragment extends Fragment {
     private RecyclerView userRecyclerView;
     private ChatUserViewAdapter userViewAdapter;
     private UserService userService;
-    private MessageService<String> messageService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +42,8 @@ public class ChatUserListFragment extends Fragment {
         userRecyclerView = view.findViewById(R.id.chat_user_list_recycler_view);
         userRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        ProgressBar progressBar = view.findViewById(R.id.progress_bar_chat_user_list);
+
         FirebaseUser loggedInUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (loggedInUser == null) {
@@ -50,11 +51,13 @@ public class ChatUserListFragment extends Fragment {
         }
 
         userService = UserService.getInstance();
-        messageService = new MessageService<>(MessageChatActivity.MESSAGES_KEY);
+        MessageService<String> messageService = new MessageService<>(MessageChatActivity.MESSAGES_KEY);
         messageService.getUsersWithConversations(loggedInUser.getUid(), (List<String> userIds) -> {
             userService.getAll((users) -> {
                 // Only shows those users who we have interacted with before.
                 this.users = users.stream().filter(u -> userIds.contains(u.getId())).collect(Collectors.toList());
+
+                progressBar.setVisibility(View.GONE);
                 userViewAdapter = new ChatUserViewAdapter(this.users, getActivity(), loggedInUser);
                 userRecyclerView.setAdapter(userViewAdapter);
             });
