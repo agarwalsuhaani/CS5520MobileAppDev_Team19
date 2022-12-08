@@ -26,4 +26,7 @@ interface IPropertyAPI {
 
     @DELETE("properties/{id}")
     Call<Void> delete(@Path("id") String id);
+
+    @GET("properties/my")
+    Call<List<Property>> getMy();
 }
