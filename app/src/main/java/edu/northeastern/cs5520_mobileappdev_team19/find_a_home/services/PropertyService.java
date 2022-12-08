@@ -53,6 +53,10 @@ public class PropertyService {
                 .enqueue(setAPICallback(callback)));
     }
 
+    public void getMy(Consumer<List<Property>> callback) {
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getMy().enqueue(setAPICallback(callback)));
+    }
+
     private <T> Callback<T> setAPICallback(Consumer<T> callback) {
         return new Callback<T>() {
             @Override
