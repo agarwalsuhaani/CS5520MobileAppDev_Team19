@@ -40,6 +40,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.Property
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.AmenitiesSelectorViewAdapter;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.DateUtils;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.EditTextDatePickerDialog;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.ImageListViewAdapter;
 
 public class AddPropertyActivity extends AppCompatActivity {
     private EditText editTextStreetAddress;
@@ -51,14 +52,13 @@ public class AddPropertyActivity extends AppCompatActivity {
     private Calendar availableFrom;
     private Calendar availableTo;
     private AmenitiesSelectorViewAdapter amenitiesSelectorViewAdapter;
+    private ImageListViewAdapter imageListViewAdapter;
     private ActivityResultLauncher<Intent> activityResultLauncher;
-    List<Uri> fileUris;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_property);
-        fileUris = new ArrayList<>();
 
         editTextStreetAddress = findViewById(R.id.edit_text_street_address);
         editTextBedCount = findViewById(R.id.edit_text_bed_count);
@@ -85,6 +85,12 @@ public class AddPropertyActivity extends AppCompatActivity {
 
         AmenityService.getInstance().getAll(amenitiesSelectorViewAdapter::setAmenities);
 
+        RecyclerView imageListRecycler = findViewById(R.id.image_list_recycler_view);
+        RecyclerView.LayoutManager imageListLayoutManager = new GridLayoutManager(this, 2);
+        imageListRecycler.setLayoutManager(imageListLayoutManager);
+        imageListViewAdapter = new ImageListViewAdapter(new ArrayList<>(), this, true);
+        imageListRecycler.setAdapter(imageListViewAdapter);
+
         setUpSubmitButton();
         setupActivityResultListeners();
     }
@@ -98,13 +104,6 @@ public class AddPropertyActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         assert data != null;
                         consumeImages(data);
-
-                        if (fileUris.size() > 0) {
-                            FirebaseStorageService firebaseStorageService = FirebaseStorageService.getInstance();
-                            firebaseStorageService.upload(this, fileUris, (files) -> {
-                                Toast.makeText(this, "Files uploaded successfully", Toast.LENGTH_LONG).show();
-                            });
-                        }
                     } else {
                         Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
                     }
@@ -135,7 +134,18 @@ public class AddPropertyActivity extends AppCompatActivity {
                             DateUtils.toLocalDate(availableFrom),
                             DateUtils.toLocalDate(availableTo),
                             amenitiesSelectorViewAdapter.getSelectedAmenities());
-                    PropertyService.getInstance().add(newProperty);
+
+                    List<Uri> images = imageListViewAdapter.getImages();
+                    if (images.size() > 0) {
+                        FirebaseStorageService firebaseStorageService = FirebaseStorageService.getInstance();
+                        firebaseStorageService.upload(this, images, (files) -> {
+                            newProperty.setImages(files);
+                            PropertyService.getInstance().add(newProperty);
+                            Toast.makeText(this, "New listing created!", Toast.LENGTH_LONG).show();
+                        });
+                    } else {
+                        PropertyService.getInstance().add(newProperty);
+                    }
                 } else {
                     showAlert("Please enter a valid address");
                 }
@@ -180,12 +190,15 @@ public class AddPropertyActivity extends AppCompatActivity {
             int itemCount = mClipData.getItemCount();
             for (int i = 0; i < itemCount; i++) {
                 Uri imageUri = mClipData.getItemAt(i).getUri();
-                fileUris.add(imageUri);
+                imageListViewAdapter.addImage(imageUri);
             }
+        } else if (data.getData() != null) {
+            Uri tempUri = data.getData();
+            imageListViewAdapter.addImage(tempUri);
         } else if (data.getExtras() != null) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             Uri tempUri = getImageUri(getApplicationContext(), photo);
-            fileUris.add(tempUri);
+            imageListViewAdapter.addImage(tempUri);
         }
     }
 

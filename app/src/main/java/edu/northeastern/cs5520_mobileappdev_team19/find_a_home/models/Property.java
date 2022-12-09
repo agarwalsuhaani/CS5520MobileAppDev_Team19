@@ -53,6 +53,9 @@ public class Property {
     @SerializedName("amenities")
     private final List<Amenity> amenities;
 
+    @SerializedName("images")
+    private List<String> images;
+
     public Property(
             User user,
             int bedCount,
@@ -143,5 +146,13 @@ public class Property {
 
     public List<Amenity> getAmenities() {
         return amenities;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

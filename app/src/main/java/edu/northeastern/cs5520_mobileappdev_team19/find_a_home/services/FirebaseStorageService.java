@@ -52,11 +52,9 @@ public class FirebaseStorageService {
                         @Override
                         public String then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                             if (!task.isSuccessful()) {
-                                Log.d("upload.onClick()", "Upload for \"" + fileUri.toString() + "\" failed!");
                                 throw task.getException(); // rethrow any errors
                             }
 
-                            Log.d("upload.onClick()", "Upload for \"" + fileUri.toString() + "\" finished. Fetching download URL...");
                             return storageRef.getPath();
                         }
                     });
@@ -68,7 +66,7 @@ public class FirebaseStorageService {
                     if (listTask.isSuccessful()) {
                         List<Task<?>> taskList = listTask.getResult();
                         List<Uri> failedUploads = new ArrayList<>();
-                        fileUploadResults.clear(); // empty old entries?
+                        fileUploadResults.clear();
 
                         for (Task<?> task : taskList) {
                             if (task.isSuccessful()) {
@@ -80,7 +78,6 @@ public class FirebaseStorageService {
                             } else {
                                 Uri imageUri = fileUris.get(taskList.indexOf(task));
                                 failedUploads.add(imageUri);
-                                Log.e("upload.onClick()", "Failed to upload/fetch URL for \"" + imageUri.getLastPathSegment() + "\" with exception", task.getException()); // log exception
                             }
                         }
 
