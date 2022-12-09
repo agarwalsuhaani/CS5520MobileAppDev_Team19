@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -94,7 +95,13 @@ public class AddPropertyActivity extends AppCompatActivity {
                             DateUtils.toLocalDate(availableFrom),
                             DateUtils.toLocalDate(availableTo),
                             amenitiesSelectorViewAdapter.getSelectedAmenities());
-                    PropertyService.getInstance().add(newProperty);
+                    PropertyService.getInstance().add(newProperty, isSuccess -> {
+                        if (isSuccess) {
+                            Toast.makeText(this, "Property created successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     showAlert("Please enter a valid address");
                 }

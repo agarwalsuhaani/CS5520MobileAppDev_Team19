@@ -18,26 +18,31 @@ import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.AmenityS
 
 public class PropertyFilterDialog extends AlertDialog {
 
+    private final FilterParams filterParams;
+    private final AmenitiesSelectorViewAdapter amenitiesSelectorViewAdapter;
+
     public PropertyFilterDialog(Context context, FilterParams filterParams) {
         super(context);
+        this.filterParams = filterParams;
+
         setTitle("Filter properties");
 
         View propertyFilterView = LayoutInflater.from(getContext()).inflate(R.layout.property_filter, null);
         setView(propertyFilterView);
 
         EditText filterAvailableFrom = propertyFilterView.findViewById(R.id.filter_available_from);
-        filterAvailableFrom.setText(DateUtils.toString(filterParams.getAvailableFrom()));
-        filterAvailableFrom.setOnClickListener(getDateOnClickListener(filterParams.getAvailableFrom()));
+        filterAvailableFrom.setText(DateUtils.toString(filterParams.availableFrom));
+        filterAvailableFrom.setOnClickListener(getDateOnClickListener(filterParams.availableFrom));
 
         EditText filterAvailableTo = propertyFilterView.findViewById(R.id.filter_available_to);
-        filterAvailableTo.setText(DateUtils.toString(filterParams.getAvailableTo()));
-        filterAvailableTo.setOnClickListener(getDateOnClickListener(filterParams.getAvailableTo()));
+        filterAvailableTo.setText(DateUtils.toString(filterParams.availableTo));
+        filterAvailableTo.setOnClickListener(getDateOnClickListener(filterParams.availableTo));
 
         RecyclerView amenitiesSelectorRecyclerView = propertyFilterView.findViewById(R.id.amenities_selector_recycler_view);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         amenitiesSelectorRecyclerView.setLayoutManager(layoutManager);
-        AmenitiesSelectorViewAdapter amenitiesSelectorViewAdapter = new AmenitiesSelectorViewAdapter(getContext(), filterParams.getSelectedAmenities());
+        amenitiesSelectorViewAdapter = new AmenitiesSelectorViewAdapter(getContext(), filterParams.selectedAmenities);
         amenitiesSelectorRecyclerView.setAdapter(amenitiesSelectorViewAdapter);
 
         AmenityService.getInstance().getAll(amenitiesSelectorViewAdapter::setAmenities);
@@ -50,9 +55,15 @@ public class PropertyFilterDialog extends AlertDialog {
         };
     }
 
+    public void resetFilters() {
+        filterParams.availableFrom = Calendar.getInstance();
+        filterParams.availableTo = Calendar.getInstance();
+        amenitiesSelectorViewAdapter.resetSelectedAmenities();
+    }
+
     public static class FilterParams {
-        private final Calendar availableFrom;
-        private final Calendar availableTo;
+        private Calendar availableFrom;
+        private Calendar availableTo;
         private final Set<Amenity> selectedAmenities;
 
         public FilterParams(Calendar availableFrom, Calendar availableTo, Set<Amenity> selectedAmenities) {
