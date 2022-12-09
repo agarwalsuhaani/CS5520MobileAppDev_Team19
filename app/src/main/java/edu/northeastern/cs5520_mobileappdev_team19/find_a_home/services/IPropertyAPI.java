@@ -22,4 +22,7 @@ interface IPropertyAPI {
 
     @POST("properties")
     Call<Property> create(@Body Property property);
+
+    @GET("properties/my")
+    Call<List<Property>> getMy();
 }
