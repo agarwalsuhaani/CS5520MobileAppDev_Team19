@@ -65,4 +65,9 @@ public class AmenitiesSelectorViewAdapter  extends RecyclerView.Adapter<Amenitie
         this.amenities.addAll(amenities);
         this.notifyDataSetChanged();
     }
+
+    public void resetSelectedAmenities() {
+        this.selectedAmenities.clear();
+        this.notifyDataSetChanged();
+    }
 }

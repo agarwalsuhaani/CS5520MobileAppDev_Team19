@@ -23,20 +23,18 @@ public class PropertyService {
         return instance;
     }
 
-    public void add(Property property) {
+    public void add(Property property, Consumer<Boolean> isSuccessful) {
         FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.create(property).enqueue(new Callback<Property>() {
             @Override
             public void onResponse(@NonNull Call<Property> call, @NonNull Response<Property> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // TODO : Handle success
-                    System.out.println("Property created");
+                    isSuccessful.accept(true);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Property> call, @NonNull Throwable t) {
-                // TODO : Handle failure
-                System.out.println(t.getMessage());
+                isSuccessful.accept(false);
             }
         }));
     }
