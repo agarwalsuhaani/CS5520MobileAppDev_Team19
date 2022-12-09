@@ -14,6 +14,10 @@
         <variable
             name="itemIcon"
             type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="itemAction"
+            type="java.util.function.Consumer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +44,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:autoLink="email"
+            android:autoLink="all"
+            android:onClick="@{(view) -> itemAction.accept(view)}"
             android:text="@{itemText}"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
