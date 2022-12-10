@@ -67,7 +67,8 @@ public class PropertyListFragment extends Fragment {
 
         FloatingActionButton filterPropertiesButton = view.findViewById(R.id.filter_properties_button);
         filterPropertiesButton.setOnClickListener(button -> {
-            PropertyFilterDialog propertyFilterDialog = new PropertyFilterDialog(getContext(), filterParams);
+            ViewGroup vg = view.findViewById(android.R.id.content);
+            PropertyFilterDialog propertyFilterDialog = new PropertyFilterDialog(getContext(), vg, filterParams);
             propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_POSITIVE, "Filter", (dialog, which) -> filterProperties());
             propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> {
             });
