@@ -1,5 +1,6 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -85,6 +86,13 @@ public class PropertyDetailActivity extends AppCompatActivity {
         chatActivity.putExtra(ChatActivity.RECIPIENT_ID, property.getUser().getId());
         chatActivity.putExtra(ChatActivity.RECIPIENT_USERNAME, property.getUser().getFullName());
         startActivity(chatActivity);
+    }
+
+    public void openMaps(Property property) {
+        @SuppressLint("DefaultLocale") Uri gmmIntentUri = Uri.parse(String.format("geo:%f,%f?q=%f,%f(%s)", property.getLocation().getLatitude(), property.getLocation().getLongitude(), property.getLocation().getLatitude(), property.getLocation().getLongitude(), property.getStreetAddress()));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
     public void openEmail(String email, String address) {

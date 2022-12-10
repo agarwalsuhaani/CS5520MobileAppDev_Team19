@@ -46,6 +46,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemIcon="@{@drawable/ic_baseline_calendar_month_24}"
+                    app:itemText="@{String.format(`From %s to %s`, property.availableFrom, property.availableTo)}" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_columnSpan="1"
                 android:layout_columnWeight="1">
 
@@ -93,6 +103,18 @@
                     layout="@layout/property_detail_item"
                     app:itemIcon="@{@drawable/ic_baseline_location_city_24}"
                     app:itemText="@{String.format(`%s, %s %05d`, property.city, property.state, property.zipcode)}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1">
+
+                <include
+                    layout="@layout/property_detail_item"
+                    app:itemAction="@{(view) -> activity.openMaps(property)}"
+                    app:itemIcon="@{@drawable/ic_baseline_map_24}"
+                    app:itemText="@{String.format(`%f, %f`, property.location.latitude, property.location.longitude)}" />
 
             </LinearLayout>
         </GridLayout>
