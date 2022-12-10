@@ -21,14 +21,17 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview;
 
 import edu.northeastern.cs5520_mobileappdev_team19.ChatActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.MessageChatActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.databinding.ActivityPropertyDetailBinding;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.FirebaseStorageService;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.PropertyService;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.AmenitiesListViewAdapter;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.CarouselViewAdapter;
 
 public class PropertyDetailActivity extends AppCompatActivity {
     public static final String PROPERTY_ID = "PROPERTY_ID";
@@ -63,6 +66,7 @@ public class PropertyDetailActivity extends AppCompatActivity {
         deletePropertyBtn = this.findViewById(R.id.property_detail_delete_button);
         propertyLayout = this.findViewById(R.id.property_detail_content);
         amenitiesRecyclerView = this.findViewById(R.id.amenities_list_recycler_view);
+        CarouselRecyclerview carouselRecyclerview = (CarouselRecyclerview) findViewById(R.id.carousel_recycler_view);
 
         String propertyId = getIntent().getStringExtra(PROPERTY_ID);
         if (propertyId != null) {
@@ -82,6 +86,14 @@ public class PropertyDetailActivity extends AppCompatActivity {
                 amenitiesRecyclerView.setLayoutManager(layoutManager);
                 AmenitiesListViewAdapter amenitiesListViewAdapter = new AmenitiesListViewAdapter(property.getAmenities(), this);
                 amenitiesRecyclerView.setAdapter(amenitiesListViewAdapter);
+
+                if (property.getImages() != null && !property.getImages().isEmpty()) {
+                    FirebaseStorageService.getInstance().get(property.getImages(), imageUris -> {
+                        carouselRecyclerview.setAdapter(new CarouselViewAdapter(this, imageUris));
+                        carouselRecyclerview.setVisibility(View.VISIBLE);
+                    });
+                }
+
             }, (failure) -> {
                 Toast.makeText(this, "Unable to fetch the specified listing. This listing might have been deleted!", Toast.LENGTH_SHORT).show();
             });

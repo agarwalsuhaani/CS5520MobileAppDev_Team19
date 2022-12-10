@@ -11,13 +11,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.PropertyDetailActivity;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.models.Property;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.FirebaseStorageService;
 
 public class PropertyListViewAdapter extends RecyclerView.Adapter<PropertyListViewHolder> {
     private final static String BED_COUNT_FORMAT = "%s bed";
@@ -53,6 +57,13 @@ public class PropertyListViewAdapter extends RecyclerView.Adapter<PropertyListVi
             propertyDetail.putExtra(PropertyDetailActivity.PROPERTY_ID, propertyList.get(position).getId());
             context.startActivity(propertyDetail);
         });
+        List<String> fileIds = propertyList.get(position).getImages();
+        if (fileIds != null && !fileIds.isEmpty()) {
+            FirebaseStorageService.getInstance().get(Collections.singletonList(fileIds.get(0)),
+                    imageUris -> Picasso.get().load(imageUris.get(0)).fit().centerCrop().into(holder.propertyImage));
+        } else {
+            holder.propertyImage.setImageResource(R.drawable.no_image);
+        }
     }
 
     @Override
