@@ -1,15 +1,12 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.storage.FirebaseStorage;
@@ -84,5 +81,33 @@ public class FirebaseStorageService {
                         uploadedFiles.accept(fileUploadResults);
                     }
                 });
+    }
+
+    public void get(List<String> fileIds, Consumer<List<Uri>> callback) {
+        List<Task<Uri>> tasks = new ArrayList<>();
+        for (String fileId : fileIds) {
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(fileId);
+            Task<Uri> task = storageRef.getDownloadUrl();
+            tasks.add(task);
+        }
+
+        List<Uri> downloadUris = new ArrayList<>();
+        Tasks.whenAllComplete(tasks).addOnCompleteListener(listTask -> {
+            if (listTask.isSuccessful()) {
+                List<Task<?>> taskResults = listTask.getResult();
+                downloadUris.clear();
+                for (Task<?> task : taskResults) {
+                    if (task.isSuccessful()) {
+                        Object result = task.getResult();
+                        if (result instanceof Uri) {
+                            Uri uri = (Uri) result;
+                            downloadUris.add(uri);
+                        }
+                    }
+                }
+
+                callback.accept(downloadUris);
+            }
+        });
     }
 }

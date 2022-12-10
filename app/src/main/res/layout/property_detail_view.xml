@@ -193,6 +193,17 @@
                     app:itemText="@{property.user.email}" />
             </LinearLayout>
         </GridLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+            android:id="@+id/carousel_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="15dp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </layout>
