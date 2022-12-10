@@ -5,11 +5,13 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import edu.northeastern.cs5520_mobileappdev_team19.R;
@@ -45,24 +48,33 @@ public class PropertyListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_property_list, container, false);
         RecyclerView propertyListRecyclerView = view.findViewById(R.id.rv_property_list);
-
+        SwipeRefreshLayout propertyListSwipeRefresh = view.findViewById(R.id.property_list_swipe_refresh);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         propertyListRecyclerView.setLayoutManager(layoutManager);
         propertyAdapter = new PropertyListViewAdapter(getContext());
         propertyListRecyclerView.setAdapter(propertyAdapter);
 
+        propertyListSwipeRefresh.setOnRefreshListener(() -> {
+            fetchProperties(res -> {
+                propertyListSwipeRefresh.setRefreshing(false);
+            });
+        });
+
         progressBar = view.findViewById(R.id.progress_bar_property_list);
 
-        fetchProperties();
+        fetchProperties((res) -> {
+        });
 
         FloatingActionButton filterPropertiesButton = view.findViewById(R.id.filter_properties_button);
         filterPropertiesButton.setOnClickListener(button -> {
             PropertyFilterDialog propertyFilterDialog = new PropertyFilterDialog(getContext(), filterParams);
             propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_POSITIVE, "Filter", (dialog, which) -> filterProperties());
-            propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> {});
+            propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> {
+            });
             propertyFilterDialog.setButton(PropertyFilterDialog.BUTTON_NEUTRAL, "Reset", (dialog, which) -> {
                 propertyFilterDialog.resetFilters();
-                fetchProperties();
+                fetchProperties((res) -> {
+                });
             });
             propertyFilterDialog.show();
         });
@@ -70,13 +82,16 @@ public class PropertyListFragment extends Fragment {
         return view;
     }
 
-    private void fetchProperties() {
+    private void fetchProperties(Consumer<Void> callback) {
         progressBar.setVisibility(View.VISIBLE);
         PropertyService.getInstance().getAll(properties -> {
             if (properties != null && !properties.isEmpty()) {
                 propertyAdapter.setPropertyList(properties);
             }
             progressBar.setVisibility(View.GONE);
+            callback.accept(null);
+        }, failure -> {
+            Toast.makeText(getActivity(), "Unable to fetch properties", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -95,6 +110,8 @@ public class PropertyListFragment extends Fragment {
                 propertyAdapter.setPropertyList(filteredProperties);
             }
             progressBar.setVisibility(View.GONE);
+        }, failure -> {
+            Toast.makeText(getActivity(), "Unable to fetch properties", Toast.LENGTH_SHORT).show();
         });
     }
 }

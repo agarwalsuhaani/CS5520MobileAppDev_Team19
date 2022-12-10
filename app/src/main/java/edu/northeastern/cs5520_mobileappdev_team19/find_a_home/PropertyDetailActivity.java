@@ -1,6 +1,8 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -37,6 +40,7 @@ public class PropertyDetailActivity extends AppCompatActivity {
     private Property property;
     private FirebaseUser loggedInUser;
     private FloatingActionButton sendMessageBtn;
+    private FloatingActionButton deletePropertyBtn;
     private LinearLayout propertyLayout;
     private RecyclerView amenitiesRecyclerView;
 
@@ -56,6 +60,7 @@ public class PropertyDetailActivity extends AppCompatActivity {
 
         progressBar = this.findViewById(R.id.progress_bar_property_detail);
         sendMessageBtn = this.findViewById(R.id.property_detail_message_button);
+        deletePropertyBtn = this.findViewById(R.id.property_detail_delete_button);
         propertyLayout = this.findViewById(R.id.property_detail_content);
         amenitiesRecyclerView = this.findViewById(R.id.amenities_list_recycler_view);
 
@@ -67,6 +72,7 @@ public class PropertyDetailActivity extends AppCompatActivity {
                 this.property = property;
                 if (loggedInUser != null && loggedInUser.getUid().equals(property.getUser().getId())) {
                     sendMessageBtn.setVisibility(View.GONE);
+                    deletePropertyBtn.setVisibility(View.VISIBLE);
                 }
                 propertyLayout.setVisibility(View.VISIBLE);
                 toolBarLayout.setTitle(property.getStreetAddress());
@@ -76,6 +82,8 @@ public class PropertyDetailActivity extends AppCompatActivity {
                 amenitiesRecyclerView.setLayoutManager(layoutManager);
                 AmenitiesListViewAdapter amenitiesListViewAdapter = new AmenitiesListViewAdapter(property.getAmenities(), this);
                 amenitiesRecyclerView.setAdapter(amenitiesListViewAdapter);
+            }, (failure) -> {
+                Toast.makeText(this, "Unable to fetch the specified listing. This listing might have been deleted!", Toast.LENGTH_SHORT).show();
             });
         }
     }
@@ -86,6 +94,23 @@ public class PropertyDetailActivity extends AppCompatActivity {
         chatActivity.putExtra(ChatActivity.RECIPIENT_ID, property.getUser().getId());
         chatActivity.putExtra(ChatActivity.RECIPIENT_USERNAME, property.getUser().getFullName());
         startActivity(chatActivity);
+    }
+
+    public void deleteProperty(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete property")
+                .setMessage("Are you sure you want to delete this property listing?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    PropertyService.getInstance().delete(property.getId(), (x) -> {
+                        Toast.makeText(this, "Property listing deleted successfully!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }, (error) -> {
+                        Toast.makeText(this, "Unable to delete property!", Toast.LENGTH_SHORT).show();
+                    });
+                })
+                .setNegativeButton("No", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     public void openMaps(Property property) {

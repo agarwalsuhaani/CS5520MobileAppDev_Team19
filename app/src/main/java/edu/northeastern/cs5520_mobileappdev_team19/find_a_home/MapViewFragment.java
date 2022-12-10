@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -63,7 +64,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         mapView = googleMap;
         initializeLocationSearchView();
         initializeSearchMapButton();
-        PropertyService.getInstance().getAll(properties -> setPropertiesOnMap(mapView, properties));
+        PropertyService.getInstance().getAll(properties -> setPropertiesOnMap(mapView, properties), failure -> {
+            Toast.makeText(getActivity(), "Unable to fetch properties", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void initializeMapView() {
@@ -88,7 +91,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                                 address.getLatitude(),
                                 address.getLongitude(),
                                 MAP_VIEW_SEARCH_RADIUS_IN_KMS,
-                                properties -> setPropertiesOnMap(mapView, properties));
+                                properties -> setPropertiesOnMap(mapView, properties), failure -> {
+                                    Toast.makeText(getActivity(), "Unable to fetch properties", Toast.LENGTH_SHORT).show();
+                                });
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -111,7 +116,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                     center.latitude,
                     center.longitude,
                     MAP_VIEW_SEARCH_RADIUS_IN_KMS,
-                    properties -> setPropertiesOnMap(mapView, properties));
+                    properties -> setPropertiesOnMap(mapView, properties), failure -> {
+                        Toast.makeText(getActivity(), "Unable to fetch properties", Toast.LENGTH_SHORT).show();
+                    });
         });
     }
 
