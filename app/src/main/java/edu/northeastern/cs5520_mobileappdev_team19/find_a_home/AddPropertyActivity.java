@@ -140,23 +140,10 @@ public class AddPropertyActivity extends AppCompatActivity {
                         FirebaseStorageService firebaseStorageService = FirebaseStorageService.getInstance();
                         firebaseStorageService.upload(this, images, (files) -> {
                             newProperty.setImages(files);
-                            PropertyService.getInstance().add(newProperty, isSuccess -> {
-                                if (isSuccess) {
-                                    Toast.makeText(this, "Property created successfully", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            Toast.makeText(this, "New listing created!", Toast.LENGTH_LONG).show();
+                            PropertyService.getInstance().add(newProperty, this::callbackResult);
                         });
                     } else {
-                        PropertyService.getInstance().add(newProperty, isSuccess -> {
-                            if (isSuccess) {
-                                Toast.makeText(this, "Property created successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        PropertyService.getInstance().add(newProperty, this::callbackResult);
                     }
                 } else {
                     showAlert("Please enter a valid address");
@@ -167,6 +154,14 @@ public class AddPropertyActivity extends AppCompatActivity {
         });
     }
 
+    private void callbackResult(boolean isSuccess) {
+        if (isSuccess) {
+            Toast.makeText(this, "Property created successfully", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+    }
     private View.OnClickListener getDateOnClickListener(Context context, Calendar calendar) {
         return view -> {
             EditTextDatePickerDialog dialog = new EditTextDatePickerDialog(context, (EditText) view, calendar);

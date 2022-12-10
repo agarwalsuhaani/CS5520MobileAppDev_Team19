@@ -1,5 +1,7 @@
 package edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 
 import java.util.List;
@@ -14,7 +16,8 @@ import retrofit2.Response;
 public class PropertyService {
     private static PropertyService instance;
 
-    private PropertyService() {}
+    private PropertyService() {
+    }
 
     public static PropertyService getInstance() {
         if (instance == null) {
@@ -39,26 +42,33 @@ public class PropertyService {
         }));
     }
 
-    public void get(String id, Consumer<Property> callback) {
-        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getById(id).enqueue(setAPICallback(callback)));
+    public void get(String id, Consumer<Property> callback, Consumer<String> failureCallback) {
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getById(id).enqueue(setAPICallback(callback, failureCallback)));
     }
 
-    public void getAll(Consumer<List<Property>> callback) {
-        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getAll().enqueue(setAPICallback(callback)));
+    public void getAll(Consumer<List<Property>> callback, Consumer<String> failureCallback) {
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getAll().enqueue(setAPICallback(callback, failureCallback)));
     }
 
-    public void getAll(double latitude, double longitude, double distanceInKMs, Consumer<List<Property>> callback) {
+    public void delete(String id, Consumer<Void> callback, Consumer<String> failureCallback) {
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.delete(id).enqueue(setAPICallback(callback, failureCallback)));
+    }
+
+    public void getAll(double latitude, double longitude, double distanceInKMs, Consumer<List<Property>> callback, Consumer<String> failureCallback) {
         String center = String.format("%s,%s", latitude, longitude);
         FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getNearby(center, distanceInKMs)
-                .enqueue(setAPICallback(callback)));
+                .enqueue(setAPICallback(callback, failureCallback)));
     }
 
-    private <T> Callback<T> setAPICallback(Consumer<T> callback) {
+    private <T> Callback<T> setAPICallback(Consumer<T> callback, Consumer<String> failureCallback) {
         return new Callback<T>() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful()) {
                     callback.accept(response.body());
+                } else {
+                    failureCallback.accept(String.format("%d: %s", response.code(), "The operation was not successful"));
                 }
             }
 

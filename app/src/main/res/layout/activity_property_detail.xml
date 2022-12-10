@@ -75,5 +75,20 @@
             app:tint="@android:color/white"
             tools:ignore="ContentDescription" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/property_detail_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:clickable="true"
+            android:onClick="deleteProperty"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@drawable/ic_baseline_delete_24"
+            app:tint="@android:color/white"
+            tools:ignore="ContentDescription"
+            android:backgroundTint="#f00"
+            android:visibility="gone"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
