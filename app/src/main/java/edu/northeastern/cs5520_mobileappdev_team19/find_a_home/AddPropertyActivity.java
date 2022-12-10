@@ -54,12 +54,14 @@ public class AddPropertyActivity extends AppCompatActivity {
     private AmenitiesSelectorViewAdapter amenitiesSelectorViewAdapter;
     private ImageListViewAdapter imageListViewAdapter;
     private ActivityResultLauncher<Intent> activityResultLauncher;
+    private boolean isAllFieldsChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_property);
 
+        isAllFieldsChecked = false;
         editTextStreetAddress = findViewById(R.id.edit_text_street_address);
         editTextBedCount = findViewById(R.id.edit_text_bed_count);
         editTextBathCount = findViewById(R.id.edit_text_bath_count);
@@ -151,7 +153,32 @@ public class AddPropertyActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            isAllFieldsChecked = checkAllFields();
         });
+    }
+
+    private boolean checkAllFields() {
+        if (editTextStreetAddress.length() == 0) {
+            editTextStreetAddress.setError("This field is required");
+            return false;
+        }
+        if (editTextBedCount.length() == 0) {
+            editTextBedCount.setError("This field is required");
+        }
+
+        if (editTextBathCount.length() == 0) {
+            editTextBathCount.setError("This field is required");
+        }
+
+        if(editTextRent.length() == 0) {
+            editTextRent.setError("This field is required");
+        }
+
+        if(editTextArea.length() == 0) {
+            editTextArea.setError("This field is required");
+        }
+
+        return true;
     }
 
     private void callbackResult(boolean isSuccess) {
