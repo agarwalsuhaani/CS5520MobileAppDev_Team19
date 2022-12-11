@@ -47,7 +47,11 @@ public class MessageChatActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-        messageService.send(new ChatMessage(senderId, recipientId, chatMessageInput.getText().toString()));
+        String message = chatMessageInput.getText().toString().trim();
+        if(message.isEmpty()) {
+            return;
+        }
+        messageService.send(new ChatMessage(senderId, recipientId, message));
         chatMessageInput.setText("");
     }
 }

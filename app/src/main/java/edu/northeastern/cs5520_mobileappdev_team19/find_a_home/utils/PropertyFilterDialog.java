@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -21,13 +22,13 @@ public class PropertyFilterDialog extends AlertDialog {
     private final FilterParams filterParams;
     private final AmenitiesSelectorViewAdapter amenitiesSelectorViewAdapter;
 
-    public PropertyFilterDialog(Context context, FilterParams filterParams) {
+    public PropertyFilterDialog(Context context, ViewGroup vg, FilterParams filterParams) {
         super(context);
         this.filterParams = filterParams;
 
         setTitle("Filter properties");
 
-        View propertyFilterView = LayoutInflater.from(getContext()).inflate(R.layout.property_filter, null);
+        View propertyFilterView = LayoutInflater.from(getContext()).inflate(R.layout.property_filter, vg, false);
         setView(propertyFilterView);
 
         EditText filterAvailableFrom = propertyFilterView.findViewById(R.id.filter_available_from);
