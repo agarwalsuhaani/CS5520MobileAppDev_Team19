@@ -16,8 +16,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
@@ -54,14 +52,12 @@ public class AddPropertyActivity extends AppCompatActivity {
     private AmenitiesSelectorViewAdapter amenitiesSelectorViewAdapter;
     private ImageListViewAdapter imageListViewAdapter;
     private ActivityResultLauncher<Intent> activityResultLauncher;
-    private boolean isAllFieldsChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_property);
 
-        isAllFieldsChecked = false;
         editTextStreetAddress = findViewById(R.id.edit_text_street_address);
         editTextBedCount = findViewById(R.id.edit_text_bed_count);
         editTextBathCount = findViewById(R.id.edit_text_bath_count);
@@ -117,9 +113,10 @@ public class AddPropertyActivity extends AppCompatActivity {
         Button submitButton = findViewById(R.id.submit);
         submitButton.setOnClickListener(view -> {
             try {
-                isAllFieldsChecked = checkAllFields();
-                if (isAllFieldsChecked == false) {
-                    showAlert("Please enter valid details");
+                boolean isAllFieldsChecked = checkAllFields();
+                if (!isAllFieldsChecked) {
+                    showAlert("Please enter valid details.");
+                    return;
                 }
                 List<Address> addressList = geocoder.getFromLocationName(editTextStreetAddress.getText().toString(), 1);
                 if (!addressList.isEmpty()) {
@@ -152,6 +149,7 @@ public class AddPropertyActivity extends AppCompatActivity {
                         PropertyService.getInstance().add(newProperty, this::callbackResult);
                     }
                 } else {
+                    editTextStreetAddress.setError("This address is invalid");
                     showAlert("Please enter a valid address");
                 }
             } catch (IOException e) {
