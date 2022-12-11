@@ -117,6 +117,10 @@ public class AddPropertyActivity extends AppCompatActivity {
         Button submitButton = findViewById(R.id.submit);
         submitButton.setOnClickListener(view -> {
             try {
+                isAllFieldsChecked = checkAllFields();
+                if (isAllFieldsChecked == false) {
+                    showAlert("Please enter valid details");
+                }
                 List<Address> addressList = geocoder.getFromLocationName(editTextStreetAddress.getText().toString(), 1);
                 if (!addressList.isEmpty()) {
                     Address address = addressList.get(0);
@@ -153,32 +157,36 @@ public class AddPropertyActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            isAllFieldsChecked = checkAllFields();
         });
     }
 
     private boolean checkAllFields() {
+        boolean check = true;
         if (editTextStreetAddress.length() == 0) {
             editTextStreetAddress.setError("This field is required");
-            return false;
+            check = false;
         }
         if (editTextBedCount.length() == 0) {
             editTextBedCount.setError("This field is required");
+            check = false;
         }
 
         if (editTextBathCount.length() == 0) {
             editTextBathCount.setError("This field is required");
+            check = false;
         }
 
         if(editTextRent.length() == 0) {
             editTextRent.setError("This field is required");
+            check = false;
         }
 
         if(editTextArea.length() == 0) {
             editTextArea.setError("This field is required");
+            check = false;
         }
 
-        return true;
+        return check;
     }
 
     private void callbackResult(boolean isSuccess) {
