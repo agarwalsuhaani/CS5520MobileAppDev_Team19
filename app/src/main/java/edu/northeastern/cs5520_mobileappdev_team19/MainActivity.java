@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         CharSequence name = "Chat notifications";
-        String description = "Notifications for any stickers sent to you";
+        String description = "Notifications for any messages sent to you";
         NotificationChannel channel = new NotificationChannel(ChatActivity.NOTIFICATION_CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
 
         channel.setDescription(description);
