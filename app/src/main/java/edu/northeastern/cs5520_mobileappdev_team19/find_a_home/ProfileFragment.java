@@ -26,7 +26,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.PropertyLis
 public class ProfileFragment extends Fragment {
     private RecyclerView userPropertyRecyclerView;
     private TextView tv_userName, tv_userEmail;
-    private RecyclerView.Adapter userPropertyListAdapter;
+    private PropertyListViewAdapter userPropertyListAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +50,8 @@ public class ProfileFragment extends Fragment {
         userPropertyListAdapter = new PropertyListViewAdapter(getContext());
         userPropertyRecyclerView.setAdapter(userPropertyListAdapter);
 
+        fetchProperties((res) -> {
+        });
 
         FloatingActionButton addPropertiesButton = view.findViewById(R.id.fab_add_property);
         addPropertiesButton.setOnClickListener(button -> {
