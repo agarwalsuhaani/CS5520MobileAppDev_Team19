@@ -34,7 +34,7 @@ public class PropertyListFragment extends Fragment {
     private final PropertyFilterDialog.FilterParams filterParams;
     private ProgressBar progressBar;
 
-    PropertyListFragment() {
+    public PropertyListFragment() {
         this.filterParams = new PropertyFilterDialog.FilterParams(Calendar.getInstance(), Calendar.getInstance(), new HashSet<>());
     }
 
