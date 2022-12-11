@@ -60,6 +60,10 @@ public class PropertyService {
                 .enqueue(setAPICallback(callback, failureCallback)));
     }
 
+    public void getMy(Consumer<List<Property>> callback, Consumer<String> failureCallback) {
+        FirebaseUtil.getAuthAPI(IPropertyAPI.class, api -> api.getMy().enqueue(setAPICallback(callback, failureCallback)));
+    }
+
     private <T> Callback<T> setAPICallback(Consumer<T> callback, Consumer<String> failureCallback) {
         return new Callback<T>() {
             @SuppressLint("DefaultLocale")
