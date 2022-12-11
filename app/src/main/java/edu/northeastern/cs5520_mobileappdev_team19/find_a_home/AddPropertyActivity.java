@@ -16,8 +16,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
@@ -115,6 +113,11 @@ public class AddPropertyActivity extends AppCompatActivity {
         Button submitButton = findViewById(R.id.submit);
         submitButton.setOnClickListener(view -> {
             try {
+                boolean isAllFieldsChecked = checkAllFields();
+                if (!isAllFieldsChecked) {
+                    showAlert("Please enter valid details.");
+                    return;
+                }
                 List<Address> addressList = geocoder.getFromLocationName(editTextStreetAddress.getText().toString(), 1);
                 if (!addressList.isEmpty()) {
                     Address address = addressList.get(0);
@@ -146,12 +149,42 @@ public class AddPropertyActivity extends AppCompatActivity {
                         PropertyService.getInstance().add(newProperty, this::callbackResult);
                     }
                 } else {
+                    editTextStreetAddress.setError("This address is invalid");
                     showAlert("Please enter a valid address");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+    }
+
+    private boolean checkAllFields() {
+        boolean check = true;
+        if (editTextStreetAddress.length() == 0) {
+            editTextStreetAddress.setError("This field is required");
+            check = false;
+        }
+        if (editTextBedCount.length() == 0) {
+            editTextBedCount.setError("This field is required");
+            check = false;
+        }
+
+        if (editTextBathCount.length() == 0) {
+            editTextBathCount.setError("This field is required");
+            check = false;
+        }
+
+        if(editTextRent.length() == 0) {
+            editTextRent.setError("This field is required");
+            check = false;
+        }
+
+        if(editTextArea.length() == 0) {
+            editTextArea.setError("This field is required");
+            check = false;
+        }
+
+        return check;
     }
 
     private void callbackResult(boolean isSuccess) {
