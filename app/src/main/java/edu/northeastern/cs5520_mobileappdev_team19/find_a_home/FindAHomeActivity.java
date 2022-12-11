@@ -12,8 +12,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +39,7 @@ import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.UserServ
 import edu.northeastern.cs5520_mobileappdev_team19.services.MessageService;
 
 public class FindAHomeActivity extends AppCompatActivity {
+    private static final String SELECTED_FRAGMENT = "SELECTED_FRAGMENT";
     private int notificationId = 0;
     private FirebaseUser user;
     private BottomNavigationView bottomNavigationView;
@@ -59,17 +58,29 @@ public class FindAHomeActivity extends AppCompatActivity {
         if (user == null) {
             requestSignIn(user -> {
                 this.user = user;
-                initialize();
+                initialize(savedInstanceState);
             });
         } else {
-            initialize();
+            initialize(savedInstanceState);
         }
     }
 
-    private void initialize() {
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (bottomNavigationView != null) {
+            outState.putInt(SELECTED_FRAGMENT, bottomNavigationView.getSelectedItemId());
+        }
+    }
+
+    private void initialize(Bundle savedInstanceState) {
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setOnItemSelectedListener(bottomNavigationViewOnItemSelectedListener);
-        setMainContainerFragment(new PropertyListFragment());
+        Fragment selectedFragment = new PropertyListFragment();
+        if (savedInstanceState != null) {
+            selectedFragment = getSelectedFragment(savedInstanceState.getInt(SELECTED_FRAGMENT));
+        }
+        setMainContainerFragment(selectedFragment);
         setupMessageNotifications(this.user);
     }
 
@@ -111,17 +122,22 @@ public class FindAHomeActivity extends AppCompatActivity {
             return true;
         }
 
-        if (item.getItemId() == R.id.property_list_menu_item) {
-            setMainContainerFragment(new PropertyListFragment());
-        } else if (item.getItemId() == R.id.map_view_menu_item) {
-            setMainContainerFragment(new MapViewFragment());
-        } else if (item.getItemId() == R.id.messages_menu_item) {
-            setMainContainerFragment(new ChatUserListFragment());
-        } else if (item.getItemId() == R.id.profile_menu_item) {
-            setMainContainerFragment(new ProfileFragment());
-        }
+        Fragment fragment = getSelectedFragment(item.getItemId());
+        setMainContainerFragment(fragment);
         return true;
     };
+
+    private Fragment getSelectedFragment(int itemId) {
+        if (itemId == R.id.map_view_menu_item) {
+            return new MapViewFragment();
+        } else if (itemId == R.id.messages_menu_item) {
+            return new ChatUserListFragment();
+        } else if (itemId == R.id.profile_menu_item) {
+            return new ProfileFragment();
+        } else {
+            return new PropertyListFragment();
+        }
+    }
 
     private void setMainContainerFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();

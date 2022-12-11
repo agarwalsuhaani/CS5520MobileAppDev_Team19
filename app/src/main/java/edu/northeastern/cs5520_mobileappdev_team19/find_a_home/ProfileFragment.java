@@ -15,6 +15,8 @@ import edu.northeastern.cs5520_mobileappdev_team19.R;
 
 public class ProfileFragment extends Fragment {
 
+    public ProfileFragment() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

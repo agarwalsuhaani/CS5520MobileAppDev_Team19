@@ -30,6 +30,8 @@ public class ChatUserListFragment extends Fragment {
     private ChatUserViewAdapter userViewAdapter;
     private UserService userService;
 
+    public ChatUserListFragment() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

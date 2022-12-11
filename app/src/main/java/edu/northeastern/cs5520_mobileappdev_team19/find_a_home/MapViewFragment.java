@@ -42,8 +42,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private SearchView locationSearchView;
     private View propertyInfoWindowView;
 
-    public MapViewFragment() {
-    }
+    public MapViewFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
