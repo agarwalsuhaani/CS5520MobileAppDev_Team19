@@ -12,11 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.function.Consumer;
+
 import edu.northeastern.cs5520_mobileappdev_team19.R;
+import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.services.PropertyService;
 import edu.northeastern.cs5520_mobileappdev_team19.find_a_home.utils.PropertyListViewAdapter;
 
 public class ProfileFragment extends Fragment {
@@ -47,13 +51,22 @@ public class ProfileFragment extends Fragment {
         userPropertyRecyclerView.setAdapter(userPropertyListAdapter);
 
 
-
-
         FloatingActionButton addPropertiesButton = view.findViewById(R.id.fab_add_property);
         addPropertiesButton.setOnClickListener(button -> {
             Intent intent = new Intent(getActivity(), AddPropertyActivity.class);
             startActivity(intent);
         });
         return view;
+    }
+
+    private void fetchProperties(Consumer<Void> callback) {
+        PropertyService.getInstance().getMy(properties -> {
+            if (properties != null && !properties.isEmpty()) {
+                userPropertyListAdapter.setPropertyList(properties);
+            }
+            callback.accept(null);
+        }, failure -> {
+            Toast.makeText(getActivity(), "Unable to fetch properties", Toast.LENGTH_SHORT).show();
+        });
     }
 }
